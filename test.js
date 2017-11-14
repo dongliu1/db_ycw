@@ -3,7 +3,9 @@
  */
 
 $(function () {
-    //init_testApi();
+    init_testApi();
+    //init_testData();
+    //init_importSQL();
 });
 
 var init_testApi=function () {
@@ -25,9 +27,22 @@ var init_testApi=function () {
         "nickname":"徐进凯"
     };
 
-    requestApi.resetPassword({"telephone":"15527744217"}).then(function (data) {
+    requestApi.getUserInfo({"telephone":"15527744229"}).then(function (data) {
         console.log(data);
         $("#result-info").html(data);
     })
 };
 
+var init_testData=function () {
+    requestApi.connectDatabase().then(function (data) {
+        console.log(data);
+        $("#result-info").html(data);
+    })
+};
+
+var init_importSQL=function () {
+    requestApi.importSqlFile().then(function (data) {
+        console.log("------------------------------------------",JSON.parse(data));
+        $("#result-info").html(data);
+    })
+};

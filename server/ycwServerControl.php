@@ -8,6 +8,8 @@
 
 class ycwServerControl extends ycwFuncControl
 {
+    public $_sqlfile="";
+    public $_sql=array();
     public function __construct__()
     {
         parent::__construct__();
@@ -42,15 +44,17 @@ class ycwServerControl extends ycwFuncControl
      * 连接数据库
      */
     public function connectDatabase(){
+        //return $this->host.$this->dbuser.$this->dbpsw;
         $con=mysqli_connect($this->host, $this->dbuser, $this->dbpsw);
-        if (!$con)
-        {
-            die('Could not connect: ' . mysqli_error($con));
-        }
+        if (!$con) die('Could not connect: ' . mysqli_error($con));
         if(!mysqli_select_db($con,$this->database)){
-            die('Could not use '.$this->database);
+            if (mysqli_query($con,"CREATE DATABASE ".$this->database)){
+                return "True2";
+            }else{
+                return "Error creating database: " . mysqli_error($con);
+            }
         }else{
-            return "True";
+            return "True1";
         }
     }
 
@@ -58,17 +62,76 @@ class ycwServerControl extends ycwFuncControl
      * 导入sql文件
      */
     public function importSqlFile(){
-        $_sql = file_get_contents('db_ycw.sql');
-        $_arr = explode(';', $_sql);
-        $_mysqli = new mysqli($this->host,$this->dbuser,$this->dbpsw);
-        if (mysqli_connect_errno()) {
-            exit('连接数据库出错');
+        if(!file_exists($this->filename))
+        {
+            exit("文件".$this->filename."不存在！");
         }
-        foreach ($_arr as $_value) {
-            $_mysqli->query($_value.';');
+        $this->_sqlfile = file_get_contents($this->filename);
+        if(!$this->_sqlfile){
+            exit("打开文件错误！");
+        }else{
+            $this->GetSqlArr();
+            if ($this->Runsql())return true;
         }
-        $_mysqli->close();
-        $_mysqli = null;
+
     }
+
+    /**
+     * 获取sql语句数组
+     *
+     * @return void
+     */
+    public function GetSqlArr(){
+        /** 去除注释 */
+        $str = $this->_sqlfile;
+        $str = preg_replace('/--.*/i', '', $str);
+        $str = preg_replace('/\/\*.*\*\/(\;)?/i', '', $str);
+        /** 去除空格 创建数组 */
+        $str = explode(";", $str);
+
+        foreach ($str as $v){
+            $v = trim($v);
+            if (empty($v)){
+                continue;
+            }else{
+                array_push($this->_sql,$v);
+            }
+        }
+    }
+
+    /**
+     * 执行sql文件
+     *
+     * @return true 执行成功返回true
+     */
+    public function Runsql(){
+
+        /** 开启事务 */
+        $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+        if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
+        mysqli_query($con,'START TRANSACTION');                                         //开启事务
+        mysqli_query($con,"SET AUTOCOMMIT=0");                                          //设置mysql不自动提交，需自行用commit语句提交
+        if (mysqli_query($con,'BEGIN'))
+        {
+            foreach ($this->_sql as $k => $v)
+            {
+                if (!mysqli_query($con,$v))
+                {
+                    /** 回滚 */
+                    mysqli_query($con,'ROLLBACK');
+                    exit("sql语句错误：第" . $k . "行" . mysqli_error($con));
+                }
+            }
+            /** 提交事务 */
+            mysqli_query($con,'COMMIT');
+            mysqli_query($con,"END"); //关闭事务
+            mysqli_query($con,"SET AUTOCOMMIT=1");//设置mysql自动提交
+            mysqli_close($con);                   //关闭数据库
+            return true;
+        }else{
+            exit('无法开启事务！');
+        }
+    }
+
 
 }

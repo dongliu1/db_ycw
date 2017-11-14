@@ -11,16 +11,16 @@ class ycwControl
 
     public $host="localhost";           //默认地址
     public $dbuser="root";              //数据库账号
-    public $dbpsw="";                   //数据库密码
+    public $dbpsw="usbw";               //数据库密码
     public $database="db_ycw";          //数据库名称
     public $port="80";                  //端口号
-    public $filename="db_ycw.sql";      //sql文件
+    public $filename="../db_ycw.sql";      //sql文件
 
     public function __construct__()
     {                                    //初始化地址信息
         $this->host="localhost";
         $this->dbuser="root";
-        $this->dbpsw="";
+        $this->dbpsw="usbw";
         $this->database="db_ycw";
         $this->port="80";
     }
