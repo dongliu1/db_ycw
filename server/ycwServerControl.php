@@ -37,4 +37,38 @@ class ycwServerControl extends ycwFuncControl
         }
         return $res1;
     }
+
+    /**
+     * 连接数据库
+     */
+    public function connectDatabase(){
+        $con=mysqli_connect($this->host, $this->dbuser, $this->dbpsw);
+        if (!$con)
+        {
+            die('Could not connect: ' . mysqli_error($con));
+        }
+        if(!mysqli_select_db($con,$this->database)){
+            die('Could not use '.$this->database);
+        }else{
+            return "True";
+        }
+    }
+
+    /**
+     * 导入sql文件
+     */
+    public function importSqlFile(){
+        $_sql = file_get_contents('db_ycw.sql');
+        $_arr = explode(';', $_sql);
+        $_mysqli = new mysqli($this->host,$this->dbuser,$this->dbpsw);
+        if (mysqli_connect_errno()) {
+            exit('连接数据库出错');
+        }
+        foreach ($_arr as $_value) {
+            $_mysqli->query($_value.';');
+        }
+        $_mysqli->close();
+        $_mysqli = null;
+    }
+
 }

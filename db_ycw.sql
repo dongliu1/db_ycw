@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-11-14 06:44:47
+-- Generation Time: 2017-11-14 09:57:46
 -- 服务器版本： 5.7.14
 -- PHP Version: 5.6.25
 
@@ -83,6 +83,18 @@ INSERT INTO `user_info` (`telephone`, `payword`, `qq`, `leader`, `nickname`) VAL
 ('15527744219', '123456', '1137293945', '', ''),
 ('15527744229', '123456', '1137293945', 'liudong', 'å¾è¿›å‡¯');
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `user_task`
+--
+
+CREATE TABLE `user_task` (
+  `id` varchar(128) NOT NULL COMMENT '任务id',
+  `name` varchar(128) NOT NULL COMMENT '任务名称',
+  `author` varchar(128) NOT NULL COMMENT '发布人'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户任务列表';
+
 --
 -- Indexes for dumped tables
 --
@@ -102,6 +114,12 @@ ALTER TABLE `user_account`
 ALTER TABLE `user_info`
   ADD PRIMARY KEY (`telephone`),
   ADD UNIQUE KEY `telephone` (`telephone`);
+
+--
+-- Indexes for table `user_task`
+--
+ALTER TABLE `user_task`
+  ADD UNIQUE KEY `任务id` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

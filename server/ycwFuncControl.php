@@ -36,10 +36,12 @@ class ycwFuncControl extends ycwControl
             return "False";
         }
         $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+        if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
         $result = mysqli_query($con,$sql);                              //查询结果
+        if(!$result)return "False";                                    //操作失败
         $rows=mysqli_num_rows($result);                                 //结果有多少行
-        if($rows==1)return "True";                                      //登录成功
-        return "False";                                                 //登陆失败
+        if($rows==1)return "True";                                     //登录成功
+        return "False";                                                //登陆失败
     }
 
     /***
@@ -75,6 +77,7 @@ class ycwFuncControl extends ycwControl
             $rslt2=$this->getUser($userTel);                                            //手机号是否已存在
             if($rslt1=="False"&&$rslt2=="False"){
                 $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+                if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
                 mysqli_query($con,'START TRANSACTION');                                         //开启事务
                 mysqli_query($con,"SET AUTOCOMMIT=0");                                          //设置mysql不自动提交，需自行用commit语句提交
                 $sql1 = "INSERT INTO user_account (account, password,telephone,userType) VALUES ('".$user."','".$psw."','".$tel."','".$userType."')";
@@ -102,7 +105,6 @@ class ycwFuncControl extends ycwControl
             }else{
                 return "False";                         //手机号或账号已存在
             }
-
         }
     }
 
@@ -118,7 +120,9 @@ class ycwFuncControl extends ycwControl
         if($user)$sql="select * from user_account where account = '".$user."'";         //账号查询
         if($tel) $sql="select * from user_account where telephone = '".$tel."'";        //手机号查询
         $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+        if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
         $result = mysqli_query($con,$sql);                              //查询结果
+        if(!$result)return "False";                                    //查询失败
         $rows=mysqli_num_rows($result);                                 //结果有多少行
         if($rows==1)return "True";                                      //用户存在
         return "False";                                                 //用户不存在
@@ -137,7 +141,9 @@ class ycwFuncControl extends ycwControl
         if($user)$sql="select * from user_account where account = '".$user."'";         //账号查询
         if($tel) $sql="select * from user_account where telephone = '".$tel."'";        //手机号查询
         $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+        if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
         $result = mysqli_query($con,$sql);                              //查询结果
+        if(!$result)return "False";                                      //查询失败
         $rows=mysqli_num_rows($result);                                 //结果有多少行
         if($rows==1){
             $userInfo = array();
@@ -216,8 +222,10 @@ class ycwFuncControl extends ycwControl
         }
 
         $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+        if (!$con)die('Could not connect: ' . mysqli_error($con));                  //连接失败
         $result1 = mysqli_query($con,$sql1);                                        //查询当前用户是否存在
-        $rows1=mysqli_num_rows($result1);
+        if(!$result1)return "False";                                                //查询失败
+        $rows1=mysqli_num_rows($result1);                                           //用户数量
         $res="False";
         if($rows1==1){
             $result2 = mysqli_query($con,$sql2);                                    //更改当前用户密码
@@ -240,6 +248,7 @@ class ycwFuncControl extends ycwControl
         if($tel==""||$psw=="")return "False";                                   //手机或密码不能为空
 
         $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+        if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
         $sql1="SELECT * FROM user_account WHERE telephone='".$tel."'";
         $sql2="UPDATE user_account SET password='".$psw."' WHERE telephone='".$tel."'";
         $result1 = mysqli_query($con,$sql1);                                     //查询当前用户是否存在
@@ -267,6 +276,7 @@ class ycwFuncControl extends ycwControl
         if($tel=="")return "False";                                   //手机号不能为空
 
         $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+        if (!$con)die('Could not connect: ' . mysqli_error($con));                      //连接失败
         $sql="UPDATE user_account SET password='123456' WHERE telephone='".$tel."'";    //默认用户密码为123456
         $result=$this->getUser($params);                                                //查询用户是否存在
         if($result=="True")$result1 = mysqli_query($con,$sql);                                  //用户存在，重置密码
@@ -276,6 +286,23 @@ class ycwFuncControl extends ycwControl
         }else{                                      //修改失败
             return "False";
         }
+
+    }
+
+    /**
+     * 发布任务
+     * @userAccount $user:用户账号
+     */
+    public function createTask($params){
+        $user=isset($params["userAccount"])?$params["userAccount"]:"";
+        if($user=="")return "False";
+
+    }
+
+    /**
+     * 获取任务id
+     */
+    public function getTaskId($params){
 
     }
 

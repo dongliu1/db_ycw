@@ -118,4 +118,24 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /***
+     * 连接数据库，检测所需数据库是否存在
+     */
+    connectDatabase:function () {
+        var prm={
+            method:"connectDatabase",
+            params:""
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    /***
+     * 导入sql文件
+     */
+    importSqlFile:function () {
+        var prm={
+            method:"importSqlFile",
+            params:""
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    }
 };

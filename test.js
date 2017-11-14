@@ -3,7 +3,7 @@
  */
 
 $(function () {
-    init_testApi();
+    //init_testApi();
 });
 
 var init_testApi=function () {
