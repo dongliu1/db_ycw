@@ -74,7 +74,8 @@ class ycwServerControl extends ycwFuncControl
             exit("打开文件错误！");
         }else{
             $this->GetSqlArr();
-            if ($this->Runsql())return true;
+            if ($this->Runsql())
+                return true;
         }
 
     }
