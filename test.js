@@ -16,18 +16,18 @@ var init_testApi=function () {
     })*/
 
     var userinfo={
-        "telephone":"15527744229",
+        "telephone":"15527744221",
         "password":"123456",
-        "username":"xujinkai1",
+        "username":"liuweimei",
         "payPassword":"123456",
         "qq":"1137293945",
         "userType":"1",
         "email":"1013204440@qq.com",
         "leader":"liudong",
-        "nickname":"徐进凯"
+        "nickname":"刘伟梅"
     };
 
-    requestApi.getUserInfo({"telephone":"15527744229"}).then(function (data) {
+    requestApi.getUserInfo({"telephone":"15527744221"}).then(function (data) {
         console.log(data);
         $("#result-info").html(data);
     })

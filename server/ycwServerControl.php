@@ -44,17 +44,20 @@ class ycwServerControl extends ycwFuncControl
      * 连接数据库
      */
     public function connectDatabase(){
-        //return $this->host.$this->dbuser.$this->dbpsw;
+
         $con=mysqli_connect($this->host, $this->dbuser, $this->dbpsw);
         if (!$con) die('Could not connect: ' . mysqli_error($con));
         if(!mysqli_select_db($con,$this->database)){
+            mysqli_set_charset($con,'utf8');                                //设置中文编码
             if (mysqli_query($con,"CREATE DATABASE ".$this->database)){
-                return "True2";
+                mysqli_close($con);
+                return "Creating Database Success";
             }else{
-                return "Error creating database: " . mysqli_error($con);
+                mysqli_close($con);
+                return "Creating Database Failed";
             }
         }else{
-            return "True1";
+            return "True";
         }
     }
 
@@ -111,6 +114,7 @@ class ycwServerControl extends ycwFuncControl
         if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
         mysqli_query($con,'START TRANSACTION');                                         //开启事务
         mysqli_query($con,"SET AUTOCOMMIT=0");                                          //设置mysql不自动提交，需自行用commit语句提交
+        mysqli_set_charset($con,'utf8');                                //设置中文编码
         if (mysqli_query($con,'BEGIN'))
         {
             foreach ($this->_sql as $k => $v)

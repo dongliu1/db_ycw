@@ -5,7 +5,7 @@
  * Date: 2017/10/30
  * Time: 20:51
  */
-
+    header("content-type:text/html;charset=utf-8");         //设置编码
     ini_set('display_errors', '1');
 
     require_once("ycwControl.php");
