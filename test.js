@@ -16,18 +16,19 @@ var init_testApi=function () {
     })*/
 
     var userinfo={
-        "telephone":"15527744221",
-        "password":"123456",
-        "username":"liuweimei",
-        "payPassword":"123456",
-        "qq":"1137293945",
-        "userType":"1",
-        "email":"1013204440@qq.com",
-        "leader":"liudong",
-        "nickname":"刘伟梅"
+        "username":"liudong",
+        "taskName":"牛肉粒",
+        "payType":"支付宝",
+        "platformName":"京东任务",
+        "shopName":"良品铺子",
+        "equipment":"1",
+        "keywords":["牛肉","鞋子","服装"],
+        "credibilityLevel":"LV3",
+        "taskCommission":"25",
+        "taskCode":["110000","310000","330000"]
     };
 
-    requestApi.getUserInfo({"telephone":"15527744221"}).then(function (data) {
+    requestApi.deleteTask({"taskId":"liudong_1510998002068"}).then(function (data) {
         console.log(data);
         $("#result-info").html(data);
     })

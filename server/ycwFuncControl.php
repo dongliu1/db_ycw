@@ -191,7 +191,7 @@ class ycwFuncControl extends ycwControl
                 $res= 'False';
             }
             mysqli_close($con);                   //关闭数据库
-            return json_encode($res,JSON_UNESCAPED_UNICODE);
+            return str_replace("\\/", "/", json_encode($res,JSON_UNESCAPED_UNICODE));
         }else{
             return "False";                                                 //用户不存在
         }
@@ -294,16 +294,224 @@ class ycwFuncControl extends ycwControl
      * @userAccount $user:用户账号
      */
     public function createTask($params){
-        $user=isset($params["userAccount"])?$params["userAccount"]:"";
-        if($user=="")return "False";
+        $PHP_SELF =  $_SERVER['PHP_SELF']?$_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
+        $url      =  'http://'.$_SERVER['HTTP_HOST'].substr($PHP_SELF,0,strrpos($PHP_SELF,'/')+1);  //当前文件所在目录链接
+        $url      =  str_replace("server/","",$url);                                                //站点根目录链接
 
+        $user             =  isset($params["username"])?$params["username"]:"";                //发布人
+        $taskName         =  isset($params["taskName"])?$params["taskName"]:"";                //任务名称
+        $payType          =  isset($params["payType"])?$params["payType"]:"";                  //付款方式
+        $platformName     =  isset($params["platformName"])?$params["platformName"]:"";        //发布平台
+        $shopName         =  isset($params["shopName"])?$params["shopName"]:"";                //店铺名称
+        $equipment        =  isset($params["equipment"])?$params["equipment"]:"";              //设备
+        $keywords         =  isset($params["keywords"])?$params["keywords"]:array();          //搜索关键词  例如:["鞋子","男士"]
+
+        $infoLogo         =  isset($params["infoLogo"])?$params["infoLogo"]:$url."serverFiles/img/miniLogo.png";                //店外截图
+        $shopLogo         =  isset($params["shopLogo"])?$params["infoLogo"]:$url."serverFiles/img/largeLogo.png";                //店外截图
+
+        $linkAddress      =  isset($params["linkAddress"])?$params["linkAddress"]:"";           //商品链接地址
+        $credibilityLevel =  isset($params["credibilityLevel"])?$params["credibilityLevel"]:""; //买号信誉等级要求
+        $taskCommission   =  isset($params["taskCommission"])?$params["taskCommission"]:"";     //任务佣金
+        $taskCode         =  isset($params["taskCode"])?$params["taskCode"]:array();            //地区行政编码  例如:["201","302"]
+
+        if($user==""||$taskName==""||$payType==""||$platformName==""||!(int)$taskCommission||!is_array($taskCode)||!count($taskCode)||!is_array($keywords))return "False";        //参数不符合要求
+
+        list($msec, $sec) = explode(' ', microtime());
+        $msectime =  (float)sprintf('%.0f', (floatval($msec) + floatval($sec)) * 1000);
+        $taskId=$user."_".$msectime;
+
+        $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+        if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
+        mysqli_query($con,'START TRANSACTION');                                         //开启事务
+        mysqli_query($con,"SET AUTOCOMMIT=0");                                          //设置mysql不自动提交，需自行用commit语句提交
+        mysqli_set_charset($con,'utf8');                                                //设置中文编码
+        $sql1 = "INSERT INTO user_task (id, taskName,author) VALUES ('".$taskId."','".$taskName."','".$user."')";
+        $sql2 = "INSERT INTO task_info (id,payType,platformName,shopName,equipment,infoLogo,shopLogo,linkAddress,credibilityLevel,taskCommission) VALUES ('".$taskId."','".$payType."','".$platformName."','".$shopName."','".$equipment."','".$infoLogo."','".$shopLogo."','".$linkAddress."','".$credibilityLevel."','".$taskCommission."')";
+        $res1 = mysqli_query($con,$sql1);                                               //向user_task表插入数据
+        $res2 = mysqli_query($con,$sql2);                                               //向task_info表插入数据
+
+        if($res1 && $res2){
+            $res= 'True';
+            foreach($taskCode as $code){
+                $sql3 = "INSERT INTO task_code(id,code) VALUES ('".$taskId."','".$code."')";
+                if(!mysqli_query($con,$sql3)){
+                    mysqli_query($con,"ROLLBACK");                                      //失败回滚
+                    $res= 'False';
+                    break;
+                }
+            }
+            foreach($keywords as $word){
+                $sql4 = "INSERT INTO task_keyword(id,keyword) VALUES ('".$taskId."','".$word."')";
+                if(!mysqli_query($con,$sql4)){
+                    mysqli_query($con,"ROLLBACK");                                      //失败回滚
+                    $res= 'False';
+                    break;
+                }
+            }
+            if($res == 'True')mysqli_query($con,"COMMIT");                               //成功提交
+        }else{
+            mysqli_query($con,"ROLLBACK");
+            $res= 'False';
+        }
+        mysqli_query($con,"END"); //关闭事务
+        mysqli_query($con,"SET AUTOCOMMIT=1");//设置mysql自动提交
+        mysqli_close($con);                   //关闭数据库
+        return $res;
     }
 
     /**
-     * 获取任务id
+     * 查询任务信息
      */
-    public function getTaskId($params){
+    public function getTaskInfo($params){
+        $pageNum=isset($params["pageNum"])?(int)$params["pageNum"]:0;
+        $pageRows=isset($params["pageRows"])?(int)$params["pageRows"]:0;
+        if($pageNum>0&&$pageRows>0){
+            $startRow=($pageNum-1)*$pageRows;
+            $sql="SELECT * FROM user_task limit ".$startRow.",".$pageRows;
+            return $this->postTaskInfo($sql);
+        }else{
+            return "False";
+        }
 
     }
 
+    /******
+     ****查询用户任务信息*****
+     *
+     * ****/
+    public function getUserTaskInfo($params){
+        $user=isset($params["username"])?$params["username"]:"";
+        if($user=="")return false;
+        $sql="SELECT * FROM user_task WHERE author='$user'";
+        return $this->postTaskInfo($sql);
+    }
+
+    /******
+     ****查询单个任务信息*****
+     * ****/
+    public function getTaskInfoById($params){
+        $taskId=isset($params["taskId"])?$params["taskId"]:"";
+        if($taskId=="")return false;
+        $sql="SELECT * FROM user_task WHERE id='$taskId'";
+        return $this->postTaskInfo($sql);
+    }
+
+    /******
+     ****通过关键字查询任务信息*****
+     * ****/
+    public function getTaskInfoByKeyword($params){
+        $keyword=isset($params["keyword"])?$params["keyword"]:"";
+        if($keyword==""){
+            $sql="SELECT * FROM task_keyword";
+        }else{
+            $sql="SELECT * FROM task_keyword WHERE keyword LIKE '%$keyword%'";
+        }
+        $res=$this->msql_select($sql);
+        $taskIds=array();
+        foreach ($res as $row){
+            if(!in_array($row["id"],$taskIds))
+                array_push($taskIds,$row["id"]);
+        }
+        $result="True";
+        $tasks=array();
+        foreach ($taskIds as $id){
+            $res1=$this->msql_select("SELECT * FROM user_task WHERE id='$id'");
+            $res2=$this->msql_select("SELECT * FROM task_info WHERE id='$id'");
+            $res3=$this->msql_select("SELECT code FROM task_code WHERE id='$id'");
+            $res4=$this->msql_select("SELECT keyword FROM task_keyword WHERE id='$id'");
+            if(!$res1 || !$res2){
+                $result="False";
+                break;
+            }
+            $task=$res1[0];
+            $task["code"]=array();
+            $task["keyword"]=array();
+            foreach ($res3 as $c){
+                array_push($task["code"],$c["code"]);
+            }
+            foreach ($res4 as $k){
+                array_push($task["keyword"],urldecode($k["keyword"]));
+            }
+            $task=array_merge($task,$res2[0]);
+            array_push($tasks,$task);
+        }
+        if($result!="False")$result=json_encode($tasks,JSON_UNESCAPED_UNICODE);
+        return str_replace("\\/", "/", $result);
+    }
+
+    /****
+     * 查询任务信息
+     */
+    public function postTaskInfo($sql){
+        $res=$this->msql_select($sql);
+        if($res){
+            $json="True";
+            foreach ($res as $key =>$row){
+                $taskid=$row["id"];
+                $taskInfo=$this->msql_select("SELECT * FROM task_info WHERE id='".$taskid."'");
+                if(!$taskInfo){
+                    $json="False";
+                    break;
+                }
+                //$taskInfo[0]["infoLogo"]=str_replace("","",$taskInfo[0]["infoLogo"]);
+                $taskInfo[0]["infoLogo"]=stripslashes($taskInfo[0]["infoLogo"]);
+                $res[$key]=array_merge($row,$taskInfo[0]);
+                $codes=$this->msql_select("SELECT code FROM task_code WHERE id='".$taskid."'");
+                $code=array();
+                if($codes){
+                    foreach ($codes as $c){
+                        array_push($code,$c["code"]);
+                    }
+                }
+                $keywords=$this->msql_select("SELECT keyword FROM task_keyword WHERE id='".$taskid."'");
+                $keyword=array();
+                if($keywords){
+                    foreach ($keywords as $k){
+                        array_push($keyword,$k["keyword"]);
+                    }
+                }
+                $res[$key]["code"]=$code;
+                $res[$key]["keyword"]=$keyword;
+            }
+            if($json=="True")$json=json_encode($res,JSON_UNESCAPED_UNICODE);
+            return str_replace("\\/", "/", $json);
+        }else{
+            return "False";
+        }
+    }
+
+    /**
+     * 删除任务
+     */
+    public function deleteTask($params){
+        $taskId=isset($params["taskId"])?$params["taskId"]:"";
+        if($taskId=="")return "False";
+        $task=$this->msql_select("SELECT * FROM user_task WHERE id='".$taskId."'");
+        if(!$task)return "False";
+
+        $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+        if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
+        mysqli_query($con,'START TRANSACTION');                                         //开启事务
+        mysqli_query($con,"SET AUTOCOMMIT=0");                                          //设置mysql不自动提交，需自行用commit语句提交
+        $sql1="DELETE FROM user_task WHERE id='".$taskId."'";
+        $sql2="DELETE FROM task_info WHERE id='".$taskId."'";
+        $sql3="DELETE FROM task_code WHERE id='".$taskId."'";
+        $sql4="DELETE FROM task_keyword WHERE id='".$taskId."'";
+        $res1 = mysqli_query($con,$sql1);                                                 //向user_task表插入数据
+        $res2 = mysqli_query($con,$sql2);                                               //向user_info表插入数据
+        $res3 = mysqli_query($con,$sql3);                                                 //向user_task表插入数据
+        $res4 = mysqli_query($con,$sql4);                                               //向user_info表插入数据
+        if($res1&&$res2&&$res3&&$res4){
+            mysqli_query($con,"COMMIT");                                        //成功提交
+            $res="True";
+        }else{
+            mysqli_query($con,"ROLLBACK");                                      //失败回滚
+            $res="False";
+        }
+
+        mysqli_query($con,"END"); //关闭事务
+        mysqli_query($con,"SET AUTOCOMMIT=1");//设置mysql自动提交
+        mysqli_close($con);                   //关闭数据库
+        return $res;
+    }
 }

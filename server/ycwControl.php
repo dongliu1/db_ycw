@@ -34,6 +34,7 @@ class ycwControl
 
         $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
         if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
+        mysqli_set_charset($con,'utf8');                                //设置中文编码
         $result = mysqli_query($con,$sql);                              //查询结果
         $rows=mysqli_num_rows($result);                                 //结果有多少行
         if($rows){

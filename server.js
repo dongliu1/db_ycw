@@ -137,5 +137,47 @@ var requestApi={
             params:""
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    createTask:function (params) {
+        var prm={
+            method:"createTask",
+            params:params
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    getTaskInfo:function (params) {
+        var prm={
+            method:"getTaskInfo",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    getUserTaskInfo:function (params) {
+        var prm={
+            method:"getUserTaskInfo",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    getTaskInfoById:function (params) {
+        var prm={
+            method:"getTaskInfoById",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    getTaskInfoByKeyword:function (params) {
+        var prm={
+            method:"getTaskInfoByKeyword",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    deleteTask:function (params) {
+        var prm={
+            method:"deleteTask",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
     }
 };
