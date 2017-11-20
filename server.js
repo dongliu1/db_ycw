@@ -179,5 +179,12 @@ var requestApi={
             params:params?params:{}
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    uploadImg:function (params) {
+        var prm={
+            method:"uploadImg",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
     }
 };
