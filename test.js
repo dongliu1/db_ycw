@@ -6,6 +6,7 @@ $(function () {
     init_testApi();
     //init_testData();
     //init_importSQL();
+    //init_imgUpload();
 });
 
 var init_testApi=function () {
@@ -28,7 +29,7 @@ var init_testApi=function () {
         "taskCode":["110000","310000","330000"]
     };
 
-    requestApi.deleteTask({"taskId":"liudong_1510998002068"}).then(function (data) {
+    requestApi.clearFiles().then(function (data) {
         console.log(data);
         $("#result-info").html(data);
     })
@@ -47,3 +48,14 @@ var init_importSQL=function () {
         $("#result-info").html(data);
     })
 };
+
+var init_imgUpload=function () {
+    $("#result-info").roxUpload({
+        success:function(data){
+            console.log("success",data);
+        },
+        failed:function(data){
+            console.log("failed",data);
+        }
+    })
+}

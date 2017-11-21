@@ -10,9 +10,9 @@ class ycwServerControl extends ycwFuncControl
 {
     public $_sqlfile="";
     public $_sql=array();
-    public function __construct__()
+    public function __construct()
     {
-        parent::__construct__();
+        parent::__construct();
     }
 
     /***

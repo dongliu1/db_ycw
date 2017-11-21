@@ -14,7 +14,7 @@
 
     $rqs=new ycwServerControl();
 
-    eval("$"."ret= $"."rqs->".$_POST["method"]."($"."_POST['params']);");           //输出结果
+    eval("$"."ret= $"."rqs->".$_POST["method"]."(isset($"."_POST['params'])?$"."_POST['params']:'');");           //输出结果
 
     echo $ret;
 

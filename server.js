@@ -186,5 +186,40 @@ var requestApi={
             params:params?params:{}
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
-    }
+    },
+    readFiles:function(params){
+        var prm={
+            method:"readFiles",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    clearFiles:function(params){
+        var prm={
+            method:"clearFiles",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    updateTask:function(params) {
+        var prm={
+            method:"updateTask",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
 };
+
+var requestSyncApi={
+    uploadImg:function (params) {
+        var rdata="";
+        $.ajaxSetup({
+            async: false
+        });
+        requestApi["uploadImg"](params).then(function(data){rdata=data;console.log(data);});
+        $.ajaxSetup({
+            async: true
+        });
+        return rdata;
+    }
+}

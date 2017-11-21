@@ -16,13 +16,19 @@ class ycwControl
     public $port="80";                  //端口号
     public $filename="../db_ycw.sql";      //sql文件
 
-    public function __construct__()
+    public $filePath="";                //文件ip地址
+    public $rootURL="";                 //站点ip地址
+    public $rootPath="";                //服务器站点根目录
+
+    public function __construct()
     {                                    //初始化地址信息
         $this->host="localhost";
         $this->dbuser="root";
         $this->dbpsw="usbw";
         $this->database="db_ycw";
         $this->port="80";
+
+        $this->init_filePath();         //初始化文件地址
     }
 
     /***
@@ -70,5 +76,17 @@ class ycwControl
         }else{
             return false;
         }
+    }
+
+    /***
+     * 文件目录
+     */
+    public function init_filePath(){
+        $PHP_SELF       =  $_SERVER['PHP_SELF']?$_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
+        $url            =  'http://'.$_SERVER['HTTP_HOST'].substr($PHP_SELF,0,strrpos($PHP_SELF,'/')+1);  //当前文件所在目录链接
+        $urlArr         =  explode('db_ycw/',$url);
+        $this->rootURL  =  $urlArr[0]."db_ycw/";                                //站点ip地址
+        $this->filePath =  $this->rootURL."serverFiles/img/";                   //文件ip地址
+        $this->rootPath =  $_SERVER["DOCUMENT_ROOT"]."/db_ycw/";                //服务器站点目录
     }
 }

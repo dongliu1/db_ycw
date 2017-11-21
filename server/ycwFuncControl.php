@@ -8,11 +8,12 @@
 
 class ycwFuncControl extends ycwControl
 {
-
-    public function __construct__()
+    public function __construct()
     {
-        parent::__construct__();
+        parent::__construct();
     }
+
+
 
     /***
      * 登录
@@ -294,10 +295,6 @@ class ycwFuncControl extends ycwControl
      * @userAccount $user:用户账号
      */
     public function createTask($params){
-        $PHP_SELF =  $_SERVER['PHP_SELF']?$_SERVER['PHP_SELF'] : $_SERVER['SCRIPT_NAME'];
-        $url      =  'http://'.$_SERVER['HTTP_HOST'].substr($PHP_SELF,0,strrpos($PHP_SELF,'/')+1);  //当前文件所在目录链接
-        $url      =  str_replace("server/","",$url);                                                //站点根目录链接
-
         $user             =  isset($params["username"])?$params["username"]:"";                //发布人
         $taskName         =  isset($params["taskName"])?$params["taskName"]:"";                //任务名称
         $payType          =  isset($params["payType"])?$params["payType"]:"";                  //付款方式
@@ -306,15 +303,14 @@ class ycwFuncControl extends ycwControl
         $equipment        =  isset($params["equipment"])?$params["equipment"]:"";              //设备
         $keywords         =  isset($params["keywords"])?$params["keywords"]:array();          //搜索关键词  例如:["鞋子","男士"]
 
-        $infoLogo         =  isset($params["infoLogo"])?$params["infoLogo"]:$url."serverFiles/img/miniLogo.png";                //店外截图
-        $shopLogo         =  isset($params["shopLogo"])?$params["infoLogo"]:$url."serverFiles/img/largeLogo.png";                //店外截图
+        $fileUrl          =  isset($params["fileUrl"])?$params["fileUrl"]:"";                  //任务图片地址
 
         $linkAddress      =  isset($params["linkAddress"])?$params["linkAddress"]:"";           //商品链接地址
         $credibilityLevel =  isset($params["credibilityLevel"])?$params["credibilityLevel"]:""; //买号信誉等级要求
         $taskCommission   =  isset($params["taskCommission"])?$params["taskCommission"]:"";     //任务佣金
         $taskCode         =  isset($params["taskCode"])?$params["taskCode"]:array();            //地区行政编码  例如:["201","302"]
 
-        if($user==""||$taskName==""||$payType==""||$platformName==""||!(int)$taskCommission||!is_array($taskCode)||!count($taskCode)||!is_array($keywords))return "False";        //参数不符合要求
+        if($fileUrl==""||$user==""||$taskName==""||$shopName==""||$linkAddress==""||$credibilityLevel==""||$payType==""||$platformName==""||!(int)$taskCommission||!is_array($taskCode)||!count($taskCode)||!is_array($keywords))return "False";        //参数不符合要求
 
         list($msec, $sec) = explode(' ', microtime());
         $msectime =  (float)sprintf('%.0f', (floatval($msec) + floatval($sec)) * 1000);
@@ -326,7 +322,7 @@ class ycwFuncControl extends ycwControl
         mysqli_query($con,"SET AUTOCOMMIT=0");                                          //设置mysql不自动提交，需自行用commit语句提交
         mysqli_set_charset($con,'utf8');                                                //设置中文编码
         $sql1 = "INSERT INTO user_task (id, taskName,author) VALUES ('".$taskId."','".$taskName."','".$user."')";
-        $sql2 = "INSERT INTO task_info (id,payType,platformName,shopName,equipment,infoLogo,shopLogo,linkAddress,credibilityLevel,taskCommission) VALUES ('".$taskId."','".$payType."','".$platformName."','".$shopName."','".$equipment."','".$infoLogo."','".$shopLogo."','".$linkAddress."','".$credibilityLevel."','".$taskCommission."')";
+        $sql2 = "INSERT INTO task_info (id,payType,platformName,shopName,equipment,fileUrl,linkAddress,credibilityLevel,taskCommission) VALUES ('".$taskId."','".$payType."','".$platformName."','".$shopName."','".$equipment."','".$fileUrl."','".$linkAddress."','".$credibilityLevel."','".$taskCommission."')";
         $res1 = mysqli_query($con,$sql1);                                               //向user_task表插入数据
         $res2 = mysqli_query($con,$sql2);                                               //向task_info表插入数据
 
@@ -348,6 +344,79 @@ class ycwFuncControl extends ycwControl
                     break;
                 }
             }
+            if($res == 'True')mysqli_query($con,"COMMIT");                               //成功提交
+        }else{
+            mysqli_query($con,"ROLLBACK");
+            $res= 'False';
+        }
+        mysqli_query($con,"END"); //关闭事务
+        mysqli_query($con,"SET AUTOCOMMIT=1");//设置mysql自动提交
+        mysqli_close($con);                   //关闭数据库
+        return $res;
+    }
+
+    public function updateTask($params){
+        $taskId           =  isset($params["taskId"])?$params["taskId"]:"";
+        if($taskId=="")return "False";
+
+        $taskName         =  isset($params["taskName"])?$params["taskName"]:"";                //任务名称
+        $payType          =  isset($params["payType"])?$params["payType"]:"";                  //付款方式
+        $platformName     =  isset($params["platformName"])?$params["platformName"]:"";        //发布平台
+        $shopName         =  isset($params["shopName"])?$params["shopName"]:"";                //店铺名称
+        $equipment        =  isset($params["equipment"])?$params["equipment"]:"";              //设备
+        $keywords         =  isset($params["keywords"])?$params["keywords"]:array();          //搜索关键词  例如:["鞋子","男士"]
+
+        $fileUrl          =  isset($params["fileUrl"])?$params["fileUrl"]:"";                  //任务图片地址
+
+        $linkAddress      =  isset($params["linkAddress"])?$params["linkAddress"]:"";           //商品链接地址
+        $credibilityLevel =  isset($params["credibilityLevel"])?$params["credibilityLevel"]:""; //买号信誉等级要求
+        $taskCommission   =  isset($params["taskCommission"])?$params["taskCommission"]:"";     //任务佣金
+        $taskCode         =  isset($params["taskCode"])?$params["taskCode"]:array();            //地区行政编码  例如:["201","302"]
+
+        if($fileUrl==""||$taskName==""||$shopName==""||$linkAddress==""||$credibilityLevel==""||$payType==""||$platformName==""||!(int)$taskCommission||!is_array($taskCode)||!count($taskCode)||!is_array($keywords))return "False";        //参数不符合要求
+
+        $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+        if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
+        mysqli_query($con,'START TRANSACTION');                                         //开启事务
+        mysqli_query($con,"SET AUTOCOMMIT=0");                                          //设置mysql不自动提交，需自行用commit语句提交
+        mysqli_set_charset($con,'utf8');                                                //设置中文编码
+        $sql1 = "UPDATE user_task SET taskName='$taskName' WHERE id='$taskId'";
+        $sql2="UPDATE task_info SET payType='$payType', platformName='$platformName', shopName='$shopName', equipment='$equipment', fileUrl='$fileUrl', linkAddress='$linkAddress', credibilityLevel='$credibilityLevel', taskCommission='$taskCommission' WHERE id='$taskId'";
+        $res1 = mysqli_query($con,$sql1);                                               //向user_task表更新数据
+        $res2 = mysqli_query($con,$sql2);                                               //向task_info表更新数据
+
+        if($res1 && $res2){
+            $res= 'True';
+            $sql3 = "DELETE FROM task_code WHERE id='$taskId'";
+            if(mysqli_query($con,$sql3)){
+                foreach($taskCode as $code){
+                    $sql3_1 = "INSERT INTO task_code(id,code) VALUES ('".$taskId."','".$code."')";
+                    if(!mysqli_query($con,$sql3_1)){
+                        mysqli_query($con,"ROLLBACK");                                      //失败回滚
+                        $res= 'False';
+                        break;
+                    }
+                }
+            }else{
+                mysqli_query($con,"ROLLBACK");                                      //失败回滚
+                $res= 'False';
+            }
+
+            $sql4 = "DELETE FROM task_keyword WHERE id='$taskId'";
+            if(mysqli_query($con,$sql4)){
+                foreach($keywords as $word){
+                    $sql4_1 = "INSERT INTO task_keyword(id,keyword) VALUES ('".$taskId."','".$word."')";
+                    if(!mysqli_query($con,$sql4_1)){
+                        mysqli_query($con,"ROLLBACK");                                      //失败回滚
+                        $res= 'False';
+                        break;
+                    }
+                }
+            }else{
+                mysqli_query($con,"ROLLBACK");                                      //失败回滚
+                $res= 'False';
+            }
+
             if($res == 'True')mysqli_query($con,"COMMIT");                               //成功提交
         }else{
             mysqli_query($con,"ROLLBACK");
@@ -502,8 +571,15 @@ class ycwFuncControl extends ycwControl
         $res3 = mysqli_query($con,$sql3);                                                 //向user_task表插入数据
         $res4 = mysqli_query($con,$sql4);                                               //向user_info表插入数据
         if($res1&&$res2&&$res3&&$res4){
-            mysqli_query($con,"COMMIT");                                        //成功提交
             $res="True";
+            $fileUrl=$task[0]->fileUrl;
+            $file=explode("/img/",$fileUrl);
+            $fileArr=explode(".",$file[count($file)-1]);
+            if(!$this->deleteFile(array("filename"=>$fileArr[0],"fileType"=>$fileArr[1]))){
+                mysqli_query($con,"ROLLBACK");                                      //失败回滚
+                $res="False";
+            };
+            mysqli_query($con,"COMMIT");                                        //成功提交
         }else{
             mysqli_query($con,"ROLLBACK");                                      //失败回滚
             $res="False";
@@ -514,4 +590,122 @@ class ycwFuncControl extends ycwControl
         mysqli_close($con);                   //关闭数据库
         return $res;
     }
+
+    /***
+     * 上传图片
+     * @param $params
+     * @return string
+     */
+    public function uploadImg($params){
+        $imgtype  = array('gif'=>'gif','png'=>'png','jpg'=>'jpeg','jpeg'=>'jpeg');                                                          //图片类型在传输过程中对应的头信息
+        $message  = isset($params['message'])?$params['message']:"";                  //接收以base64编码的图片数据
+        $filename = isset($params['filename'])?$params['filename']:"";               //接收文件名称
+        $ftype    = isset($params['filetype'])?$params['filetype']:"";                //接收文件类型
+        $randNum  = md5(uniqid(rand()));                                               //md5随机数
+
+        list($msec, $sec) = explode(' ', microtime());
+        $msectime =  (float)sprintf('%.0f', (floatval($msec) + floatval($sec)) * 1000); //当前时间unix时间戳
+        $filename=$filename."_".$msectime."_".$randNum;                                //随机文件名
+
+        $message = base64_decode(substr($message,strlen('data:image/'.$imgtype[strtolower($ftype)].';base64,')));   //首先将头信息去掉，然后解码剩余的base64编码的数据
+
+        $savePath = $this->rootPath."serverFiles/img/";                           //文件保存地址
+
+        $fileRoot=$savePath.$filename.".".$ftype;                                 //保存文件位置
+
+        while(file_exists($fileRoot)){                      //文件名已存在，更改文件名
+            $randNum  = md5(uniqid(rand()));
+            $filename = $filename."_".$randNum;             //文件名后加上随机数
+            $fileRoot = $savePath.$filename.".".$ftype;     //重命名文件名
+        }
+
+        $file = fopen($fileRoot,"w");                         //开始写文件
+        if(fwrite($file,$message) === false){
+            return json_encode(array('code'=>0,'con'=>'failed'),JSON_UNESCAPED_UNICODE);       //写入失败
+        }
+        $url=str_replace("\\/", "/", $this->filePath.$filename.".".$ftype);    //写入成功
+        return json_encode(array('code'=>1,'filename'=>$filename,'filePath'=>$url,'filetype'=>$ftype),JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * 读取图片信息
+     * @return string
+     */
+    public function readFiles($params){
+        $folder   = $this->rootPath.'serverFiles/img';
+        $file_arr = array();
+
+        $isUsed=isset($params["isUsed"])?$params["isUsed"]:"";
+        if(is_dir($folder)){
+            $dirdemo = @opendir($folder);
+            if($dirdemo){
+                while(($filedemo = readdir($dirdemo))!==false){
+                    if ($filedemo!="." && $filedemo!="..") {
+                        $isUsage=false;
+                        $files=explode('.',$filedemo);
+                        if($this->readFileUrl($this->filePath.$filedemo))$isUsage=true;
+                        if($isUsed==""){
+                            array_push($file_arr,array("filename"=>$files[0],"fileType"=>$files[1],"isUsed"=>$isUsage));
+                        }else if($isUsed=="isUsed"&&$isUsage){
+                            array_push($file_arr,array("filename"=>$files[0],"fileType"=>$files[1]));
+                        }else if($isUsed=="unUsed"&&!$isUsage){
+                            array_push($file_arr,array("filename"=>$files[0],"fileType"=>$files[1]));
+                        }
+                    }
+                }
+                closedir($dirdemo);
+            }
+            return json_encode($file_arr,JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    /***
+     * 清除废弃文件
+     */
+    public function clearFiles(){
+        $files=$this->readFiles(array("isUsed"=>"unUsed"));
+        $files=json_decode($files);
+        $isCleared=true;
+        $info=array("success"=>"文件全部删除成功");
+        foreach ($files as $file){
+            //echo json_encode($file);
+            $path="../serverFiles/img/".$file->filename.".".$file->fileType;
+
+            if(!unlink($path)){
+                $isCleared=false;
+            };
+        }
+        if(!$isCleared)$info=array("error"=>"未清洗干净");
+        return  json_encode($info,JSON_UNESCAPED_UNICODE);
+    }
+
+    /***
+     * 查看图片地址是否已存在数据库
+     */
+    public function readFileUrl($url){
+        $sql="SELECT infoLogo FROM task_info WHERE infoLogo='$url'";
+        if($this->msql_select($sql)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    /**
+     * 删除本地文件
+     * @param $params
+     * @return bool
+     */
+    public function deleteFile($params){
+        $filename=isset($params["filename"])?$params["filename"]:"";
+        $fileType=isset($params["fileType"])?$params["fileType"]:"";
+
+        if($filename==""||$fileType=="")return false;
+        $file="../serverFiles/img/".$filename.".".$fileType;
+        if(!unlink($file))return false;
+        return true;
+    }
 }
+
+
+
