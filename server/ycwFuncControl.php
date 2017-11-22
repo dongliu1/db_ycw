@@ -13,8 +13,6 @@ class ycwFuncControl extends ycwControl
         parent::__construct();
     }
 
-
-
     /***
      * 登录
      * @username:账号
@@ -291,6 +289,132 @@ class ycwFuncControl extends ycwControl
     }
 
     /**
+     * 交易
+     * transact:recharge(充值)，consumer(消费)
+     * @param $params
+     * @return string
+     */
+    public function transact($params){
+        $transact  = isset($params["transact"])?$params["transact"]:"";
+        $telephone = isset($params["telephone"])?$params["telephone"]:"";
+        $amount    = isset($params["amount"])?(int)$params["amount"]:"";
+        if($amount>0&&$telephone!=""&&($transact=="recharge"||$transact=="consumer")){
+            $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
+            if (!$con)die('Could not connect: ' . mysqli_error($con));                  //连接失败
+            $sql="SELECT asset FROM user_info WHERE telephone='$telephone'";
+            $result = mysqli_query($con,$sql);                                          //查询当前用户余额
+            if($result){
+                $rows=mysqli_num_rows($result);                                           //查询结果记录条数
+                if($rows==1){
+                    $userAsset = 0;
+                    while ($rows=mysqli_fetch_array($result)){
+                        $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小
+                        for($i=0;$i<$count;$i++){
+                            unset($rows[$i]);//删除冗余数据
+                        }
+                        $userAsset=(int)$rows["asset"];
+                    }
+
+                    if($transact=="recharge"){
+                        $userAsset+=$amount;
+                        $dealType=0;
+                    }else{
+                        $userAsset-=$amount;
+                        $dealType=1;
+                    }
+                    if($userAsset>=0){
+                        list($msec, $sec) = explode(' ', microtime());
+                        $dealTime =  (float)sprintf('%.0f', (floatval($msec) + floatval($sec)) * 1000); //当前时间unix时间戳
+
+                        mysqli_query($con,'START TRANSACTION');                                         //开启事务
+                        mysqli_query($con,"SET AUTOCOMMIT=0");                                          //设置mysql不自动提交，需自行用commit语句提交
+                        $sql1="UPDATE user_info SET asset='$userAsset' WHERE telephone='$telephone'";
+                        $sql2="INSERT INTO deal_records(useid,dealType,dealTime,dealAmount) VALUES('$telephone','$dealType','$dealTime','$amount')";
+                        $result1 = mysqli_query($con,$sql1);                                          //更新当前用户余额
+                        $result2 = mysqli_query($con,$sql2);                                          //添加交易记录
+                        if($result1&&$result2){
+                            $res="True";
+                            mysqli_query($con,"COMMIT");                                      //成功提交
+                        }else{
+                            $res="False";
+                            mysqli_query($con,"ROLLBACK");                                      //失败回滚
+                        }
+                        mysqli_query($con,"END"); //关闭事务
+                        mysqli_query($con,"SET AUTOCOMMIT=1");//设置mysql自动提交
+                    }else{
+                        $res="False";
+                    }
+                }else{
+                    $res="False";
+                }
+            }else{
+                $res="False";
+            }
+            mysqli_close($con);
+            return $res;
+        }else{
+            return "False";
+        }
+    }
+
+    /****
+     * 查询账户余额
+     * @param $params
+     * @return string
+     */
+    public function getAsset($params){
+        $telephone=isset($params["telephone"])?$params["telephone"]:"";
+        if(!$telephone)return "False";
+        $sql="SELECT asset FROM user_info WHERE telephone='$telephone'";
+        $asset=$this->msql_select($sql);
+        return json_encode($asset,JSON_UNESCAPED_UNICODE);
+    }
+
+    /****
+     * 查询交易信息
+     * @param $params
+     * @return string
+     */
+    public function getDealRecord($params){
+        $telephone = isset($params["telephone"])?$params["telephone"]:"";
+        $beginTime = isset($params["beginTime"])?$params["beginTime"]:"";
+        $endTime   = isset($params["endTime"])?$params["endTime"]:"";
+
+        if($telephone==""||$beginTime==""||$endTime=="")return "False";
+
+        $sql="SELECT dealAmount,dealTime,dealType FROM deal_records WHERE userid='$telephone' AND dealTime>=$beginTime AND dealTime<=$endTime";
+        $asset=$this->msql_select($sql);
+        return json_encode($asset,JSON_UNESCAPED_UNICODE);
+    }
+
+    /***
+     * 删除交易记录
+     * @param $params
+     * @return string
+     */
+    public function deleteDealRecord($params){
+
+        $beginTime = isset($params["beginTime"])? (int)$params["beginTime"]:"";
+        $endTime   = isset($params["endTime"])  ? (int)$params["endTime"]:"";
+
+        if($beginTime==""&&$endTime==""){                           //不传值，删除全部记录
+            $sql="DELETE FROM deal_records";
+        }else if($beginTime==""&&$endTime>0){                       //只传入结束时间,删除结束时间以前的记录
+            $sql="DELETE FROM deal_records dealTime<='$endTime'";
+        }else if($beginTime>0&&$endTime>0&&$beginTime<$endTime){    //删除开始时间到结束时间的记录
+            $sql="DELETE FROM deal_records WHERE dealTime>='$beginTime' AND dealTime<='$endTime'";
+        }else{                                                      //参数不符合规范
+            return "False";
+        }
+
+        if($this->msql_execute($sql)){          //删除成功
+            return "True";
+        }else{                                  //删除失败
+            return "False";
+        }
+    }
+
+    /**
      * 发布任务
      * @userAccount $user:用户账号
      */
@@ -355,6 +479,11 @@ class ycwFuncControl extends ycwControl
         return $res;
     }
 
+    /**
+     * 修改任务
+     * @param $params
+     * @return string
+     */
     public function updateTask($params){
         $taskId           =  isset($params["taskId"])?$params["taskId"]:"";
         if($taskId=="")return "False";

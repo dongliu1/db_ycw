@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: 2017-11-18 14:00:48
+-- Generation Time: 2017-11-22 03:18:33
 -- 服务器版本： 5.7.14
 -- PHP Version: 5.6.25
 
@@ -19,6 +19,19 @@ SET time_zone = "+00:00";
 --
 -- Database: `db_ycw`
 --
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `deal_records`
+--
+
+CREATE TABLE `deal_records` (
+  `userid` varchar(128) NOT NULL COMMENT '用户id，默认为手机号',
+  `dealType` varchar(128) NOT NULL DEFAULT '1' COMMENT '交易类型（0充值/1消费）',
+  `dealTime` varchar(128) NOT NULL COMMENT '交易时间',
+  `dealAmount` varchar(128) NOT NULL COMMENT '交易金额'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='交易记录';
 
 -- --------------------------------------------------------
 
@@ -43,8 +56,7 @@ CREATE TABLE `task_info` (
   `platformName` varchar(128) NOT NULL COMMENT '平台名称',
   `shopName` varchar(128) NOT NULL COMMENT '店铺名称',
   `equipment` varchar(128) NOT NULL COMMENT '设备',
-  `infoLogo` varchar(128) NOT NULL COMMENT '店外截图',
-  `shopLogo` varchar(128) NOT NULL COMMENT '店内截图',
+  `fileUrl` varchar(128) NOT NULL COMMENT '任务图片路径',
   `linkAddress` varchar(128) NOT NULL COMMENT '商品链接地址',
   `credibilityLevel` varchar(128) NOT NULL COMMENT '买号信誉等级要求',
   `taskCommission` varchar(128) NOT NULL COMMENT '任务佣金'
@@ -96,7 +108,8 @@ CREATE TABLE `user_info` (
   `payword` varchar(128) NOT NULL DEFAULT '123456' COMMENT '支付密码',
   `qq` varchar(128) DEFAULT NULL COMMENT 'QQ号',
   `leader` varchar(128) DEFAULT NULL COMMENT '推荐人',
-  `nickname` varchar(128) DEFAULT NULL COMMENT '昵称'
+  `nickname` varchar(128) DEFAULT NULL COMMENT '昵称',
+  `asset` varchar(128) NOT NULL DEFAULT '0' COMMENT '用户资产'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

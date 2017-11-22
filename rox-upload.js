@@ -2,11 +2,11 @@
  * Created by liudong on 2017/11/21.
  */
 /**
- * Created by liudong on 2017/3/6.
- */
-/**
- 获取分页信息：$(selector).skpages('setPages',{total:5000,currentPage:1,pageRows:50},callback);
- 设置分页信息：$(selector).skpages('getPages'，callback);
+ * 图片上传插件
+ * $(selector).roxUpload({
+ * success:function(data){},     //上传成功
+ * failed:function(data){}       //上传失败
+ * })
  */
 (function ($) {																//闭包限定命名空间
     $.fn.roxUpload = function(){

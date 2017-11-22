@@ -138,6 +138,11 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /**
+     * 发布任务
+     * @param params
+     * @returns {*}
+     */
     createTask:function (params) {
         var prm={
             method:"createTask",
@@ -145,6 +150,11 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /**
+     * 获取所有任务信息
+     * @param params
+     * @returns {*}
+     */
     getTaskInfo:function (params) {
         var prm={
             method:"getTaskInfo",
@@ -152,6 +162,11 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /***
+     * 获取用户任务信息
+     * @param params
+     * @returns {*}
+     */
     getUserTaskInfo:function (params) {
         var prm={
             method:"getUserTaskInfo",
@@ -159,6 +174,11 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /**
+     * 通过任务id获取任务信息
+     * @param params
+     * @returns {*}
+     */
     getTaskInfoById:function (params) {
         var prm={
             method:"getTaskInfoById",
@@ -166,6 +186,11 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /**
+     * 通过关键词获取任务信息
+     * @param params
+     * @returns {*}
+     */
     getTaskInfoByKeyword:function (params) {
         var prm={
             method:"getTaskInfoByKeyword",
@@ -173,6 +198,11 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /**
+     * 删除任务
+     * @param params
+     * @returns {*}
+     */
     deleteTask:function (params) {
         var prm={
             method:"deleteTask",
@@ -180,6 +210,11 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /**
+     * 上传图片
+     * @param params
+     * @returns {*}
+     */
     uploadImg:function (params) {
         var prm={
             method:"uploadImg",
@@ -187,6 +222,11 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /**
+     * 读取服务器本地文件
+     * @param params
+     * @returns {*}
+     */
     readFiles:function(params){
         var prm={
             method:"readFiles",
@@ -194,6 +234,11 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /**
+     * 清理服务器本地文件
+     * @param params
+     * @returns {*}
+     */
     clearFiles:function(params){
         var prm={
             method:"clearFiles",
@@ -201,6 +246,11 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /**
+     * 修改任务信息
+     * @param params
+     * @returns {*}
+     */
     updateTask:function(params) {
         var prm={
             method:"updateTask",
@@ -208,6 +258,55 @@ var requestApi={
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
+    /**
+     * 任务交易
+     * transact:recharge(充值),consumer(消费)
+     * @param params
+     * @returns {*}
+     */
+    transact:function(params) {
+        var prm={
+            method:"transact",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    /**
+     * 获取账户余额
+     * @param params
+     * @returns {*}
+     */
+    getAsset:function(params) {
+        var prm={
+            method:"getAsset",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    /**
+     * 获取交易记录
+     * @param params
+     * @returns {*}
+     */
+    getDealRecord:function(params) {
+        var prm={
+            method:"getDealRecord",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    /**
+     * 删除交易记录
+     * @param params
+     * @returns {*}
+     */
+    deleteDealRecord:function(params) {
+        var prm={
+            method:"deleteDealRecord",
+            params:params?params:{}
+        };
+        return $.post(path+"server.php",prm,function (data) {},"html");
+    }
 };
 
 var requestSyncApi={
@@ -216,7 +315,7 @@ var requestSyncApi={
         $.ajaxSetup({
             async: false
         });
-        requestApi["uploadImg"](params).then(function(data){rdata=data;console.log(data);});
+        requestApi["uploadImg"](params).then(function(data){rdata=data;});
         $.ajaxSetup({
             async: true
         });
