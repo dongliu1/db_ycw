@@ -306,6 +306,13 @@ var requestApi={
             params:params?params:{}
         };
         return $.post(path+"server.php",prm,function (data) {},"html");
+    },
+    sendMessageVerification:function (params) {
+        var prm={
+            method:"sendMessageVerification",
+            params:params?params:{}
+        }
+        return $.post(path+"server.php",prm,function (data) {},"html");
     }
 };
 
