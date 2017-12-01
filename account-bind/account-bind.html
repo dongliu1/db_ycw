@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>账号绑定</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="../rsc/css/style.css">
+        <link rel="stylesheet" href="account-bind.css">
+		<link rel="stylesheet" type="text/css" href="../rsc/font/iconfont.css">
+		<link rel="stylesheet" href="../rsc/css/animate.min.css">
+    </head>
+    <body>
+        <div class="layout-container">
+            <!--导航栏-->
+            <div class="layout-header-nav">
+                <div class="nav-bar">
+                    <div class="nav-bar-l">
+                        <span>您好，欢迎您！</span>
+                        <a href="../landing/landing.html">登录</a>
+                        <a href="../register/register.html">注册</a>
+                    </div>
+                    <div class="nav-bar-r">
+                        <ul>
+                            <li class="menu"><a class="list" href="#">会员中心</a></li>
+                            <li class="menu">
+								<a class="list" href="#">商家<i class="iconfont icon-zuo2"></i></a>
+								<ul class="menu1">
+									<li><a href="#">账号充值</a></li>
+									<li><a href="#">账号余额</a></li>
+									<li><a href="#">账号提现</a></li>
+								</ul>
+							</li>
+                            <li class="menu">
+								<a class="list" href="#">我是刷手<i class="iconfont icon-zuo2"></i></a>
+								<ul class="menu1">
+									<li><a href="#">发布任务</a></li>
+									<li><a href="#">接手任务</a></li>
+									<li><a href="#">完成任务</a></li>
+								</ul>
+							</li>
+                            <li class="menu">
+								<a class="list" href="#">账号管理<i class="iconfont icon-zuo2"></i></a>
+								<ul class="menu1">
+									<li><a href="#">资料修改</a></li>
+									<li><a href="#">密码修改</a></li>
+									<li><a href="#">密码认证</a></li>
+								</ul>
+							</li>
+                            <li class="menu"><a class="list" href="#">app下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--logo-->
+            <div class="layout-header-logo">
+                <!--logo-->
+                <div class="nav-bar-logo">
+                    <img src="../rsc/image/logo.png"/>
+                </div>
+                <!--菜单-->
+                <div class="nav-header-menu">
+					<ul>
+						<li class="active">
+							<a href="#">首页</a>
+						</li>
+						<li>
+							<a href="#">任务中心</a>
+						</li>
+						<li>
+							<a href="#">我要兼职</a>
+						</li>
+						<li>
+							<a href="#">帮助中心</a>
+						</li>
+						<li>
+							<a href="#">新手教程</a>
+						</li>
+					</ul>
+                </div>
+            </div>
+			<!--任务大厅-->
+            <div class="layout-main-list">
+                <div class="addTask">
+                    <h1>亲，绑定的买卖号务必真实哦，一旦发现虚假，锁定处理</h1>
+                    <div class="left">
+                        <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" class="">
+                            <tbody>
+                                <tr class="list">
+                                    <td class="title">电商平台类型:</td>
+                                    <td class="taskType">
+                                        <select>
+                                            <option value="1">淘宝任务</option>
+                                            <option value="2">天猫任务</option>
+                                            <option value="2">京东任务</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="list">
+                                    <td class="title">绑定类型:</td>
+                                    <td class="taskType">
+                                        <input type="radio" name="AccountType" value="1">
+                                        <span>绑定买号</span>
+                                        <input type="radio" name="AccountType" value="2">
+                                        <span>绑定店铺账号</span>
+                                    </td>
+                                </tr>
+                                <tr class="list">
+                                    <td class="title">账号名称:</td>
+                                    <td class="taskType">
+                                        <input type="text">
+                                    </td>
+                                </tr>
+                                <tr class="list guest bus">
+                                    <td class="title">账号名称:</td>
+                                    <td class="taskType">
+                                        <input type="text">
+                                    </td>
+                                </tr>
+                                <tr class="list guest bus">
+                                    <td class="title">性别:</td>
+                                    <td class="taskType">
+                                        <select>
+                                            <option value="1">男</option>
+                                            <option value="2">女</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="list guest bus">
+                                    <td class="title">年纪:</td>
+                                    <td class="taskType">
+                                        <select>
+                                            <option value="1">20岁以下</option>
+                                            <option value="2" selected="selected">21-25岁</option>
+                                            <option value="3">26-32岁</option>
+                                            <option value="4">33-40岁</option>
+                                            <option value="5">41岁以上</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr class="list">
+                                    <td class="title"></td>
+                                    <td class="taskType">
+                                        <button class="btn">确认提交</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h4>注：绑定后账号将无法修改，同时删除后也无法再重新添加！</h4>
+                    </div>
+                    <div class="right">
+                        <h3>绑定买号tips：</h3>
+                        <p>注：普通会员每个任务区可以绑定15个买号，VIP会员不限制</p>
+                        <p> 1、请尽量绑定多个备选买号，接手任务时轮换使用<br>
+                            2、根据淘宝的最新安全策略，所有买号都要求必须是填写完整个人信息后才能进行绑定；为了您的买号与卖家网店安全请您先将买号个人信息完善后再接手任务；<br>
+                            3、请不要同一买号在多个平台接任务，避免因接任务过多被淘宝等稽查系统列入监控目标给卖家店铺造成损失。<br>
+                            姓别和年龄的作用：例如卖家发布的任务要求只能21-25岁的女性用户接手，若你想接此任务，你的买号必需适合这个条件才可以接手，所以请如实选择性别与年龄。<br>
+                        </p><br>
+                        <h3>绑定掌柜号tips：</h3>
+
+                        <p>注：普通会员每个任务区可以绑定20个掌柜号，想要绑定更多，请升级为VIP会员或更高级别会员<br>
+                            建议：如果您的店铺加入了淘宝的消保，发布任务时尽量过滤下低积分接手，避免受到损失！<br>
+                        </p>
+                    </div>
+                </div>
+			</div>
+            <!---->
+            <div class="layout-footer">
+                <div class="layout-footer-main">
+                    <div class="list">
+                        <ul>
+                            <li class="title">常见问题</li>
+                            <li><a href="#">产品安装</a></li>
+                            <li><a href="#">帮助中心</a></li>
+                            <li><a href="#">安全应急中心</a></li>
+                            <li><a href="#">开源文化</a></li>
+                        </ul>
+                    </div>
+                    <div class="list">
+                        <ul>
+                            <li class="title">公司产品</li>
+                            <li><a href="#">产品安装</a></li>
+                            <li><a href="#">帮助中心</a></li>
+                            <li><a href="#">安全应急中心</a></li>
+                            <li><a href="#">开源文化</a></li>
+                        </ul>
+                    </div>
+                    <div class="list">
+                        <ul>
+                            <li class="title">关于我们</li>
+                            <li><a href="#">产品安装</a></li>
+                            <li><a href="#">帮助中心</a></li>
+                            <li><a href="#">安全应急中心</a></li>
+                            <li><a href="#">开源文化</a></li>
+                        </ul>
+                    </div>
+                    <div class="list active">
+                        <ul>
+                            <li class="title">联系我们</li>
+                            <li><i class="iconfont icon-position"></i><a href="#">公司地址：湖北省武汉市洪山区光谷广场</a></li>
+                            <li><i class="iconfont icon-dianhua"></i><a href="#">联系方式：400-800-1000</a></li>
+                            <li><i class="iconfont icon-icon"></i><a href="#">联系邮箱：4008001000@163.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--客服-->
+            <div class="layout-footer-fixed">
+                <ul>
+                    <li>
+                        <i class="iconfont icon-qq"></i>
+                        <span>QQ</span>
+                        <span>咨询</span>
+                    </li>
+                    <li>
+                        <i class="iconfont icon-buchongiconsvg02"></i>
+                        <span>微信</span>
+                        <span>咨询</span>
+                    </li>
+                    <li>
+                        <i class="iconfont icon-tongzhi3"></i>
+                        <span>公告</span>
+                        <span>信息</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
+<script src="../rsc/js/jquery-3.2.1.min.js"></script>
+<script src="../rsc/js/server.js"></script>
+<script src="../rsc/js/main.js"></script>
+<script src="account-bind.js"></script>

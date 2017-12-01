@@ -1,4 +1,4 @@
-var path=(typeof(serverPath)=="undefined"?"server/":serverPath);
+var path=(typeof(serverPath)=="undefined"?"../server/":serverPath);
 var requestApi={
     /***
      * 登录
@@ -327,5 +327,16 @@ var requestSyncApi={
             async: true
         });
         return rdata;
-    }
+    },
+    registration:function (params) {
+        var rdata="";
+        $.ajaxSetup({
+            async: false
+        });
+        requestApi["registration"](params).then(function(data){rdata=data;});
+        $.ajaxSetup({
+            async: true
+        });
+        return rdata;
+    },
 }

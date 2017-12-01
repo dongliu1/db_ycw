@@ -1,0 +1,184 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color: #666;
+}
+li {
+  list-style-type: none;
+}
+html,
+body {
+  width: 100%;
+  height: 100%;
+  font: 14px "Microsoft YaHei", tahoma, arial, "\5b8b\4f53", sans-serif;
+}
+.layout-container {
+  height: 100%;
+  /* 联系方式 */
+}
+.layout-container .nav-header {
+  background: #f8f8f8;
+  border-bottom: 1px solid #b9b9b9;
+}
+.layout-container .nav-header .header {
+  width: 1200px;
+  margin: 0 auto;
+  height: 80px;
+  line-height: 80px;
+}
+.layout-container .nav-header .header .header-left {
+  float: left;
+  height: 100%;
+}
+.layout-container .nav-header .header .header-left img {
+  height: 100%;
+}
+.layout-container .nav-header .header .header-right {
+  float: right;
+  display: inline-block;
+  font-size: 16px;
+}
+.layout-container .nav-header .header .header-right a {
+  display: inline-block;
+  width: 102px;
+  height: 42px;
+  line-height: 42px;
+  text-align: center;
+}
+.layout-container .nav-header .header .header-right a:hover {
+  width: 100px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 3px;
+  border: 1px solid #0082f6;
+  color: #0082f6;
+}
+.layout-container .nav-main {
+  background: #F2F9FF;
+  border-bottom: 1px solid #ccc;
+}
+.layout-container .nav-main .main-title h1 {
+  padding-top: 30px;
+}
+.layout-container .nav-main .main-title {
+  width: 1200px;
+  margin: 0 auto;
+}
+.layout-container .nav-main .main-box {
+  width: 1200px;
+  margin: 0 auto;
+  min-height: 350px;
+}
+.layout-container .nav-main .main-box #register {
+  margin: 30px 0;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  text-align: center;
+  overflow: hidden;
+  display: inline-block;
+}
+.layout-container .nav-main .main-box #register .register-list {
+  width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  text-align: left;
+  font-size: 14px;
+  float: left;
+  border-right: dashed 1px #ddd;
+}
+.layout-container .nav-main .main-box #register .register-list dl {
+  clear: both;
+  display: block;
+  padding: 5px 0;
+}
+.layout-container .nav-main .main-box #register .register-list dl dt {
+  display: block;
+  padding: 5px 0;
+  float: left;
+  width: 30%;
+  line-height: 42px;
+  min-height: 42px;
+  color: #555;
+  text-align: right;
+}
+.layout-container .nav-main .main-box #register .register-list dl dd {
+  position: relative;
+  padding: 5px 0 5px 20px;
+  line-height: 42px;
+  min-height: 42px;
+  color: #555;
+  overflow: hidden;
+}
+.layout-container .nav-main .main-box #register .register-list dl dd input {
+  display: inline;
+  margin-right: 5px;
+  height: 20px;
+  line-height: 20px;
+  vertical-align: middle;
+  background: #fff;
+  color: #999;
+  border: 1px solid #e8e8e8;
+  border-radius: 2px;
+  padding: 10px;
+}
+.layout-container .nav-main .main-box #register .register-list dl dd #btnSubmit {
+  width: 200px;
+  height: 40px;
+  border-radius: 3px;
+  background: #1e7bb3;
+  color: #fff;
+}
+.layout-container .nav-main .main-box #register .register-list-right {
+  position: relative;
+  width: 280px;
+  height: auto;
+  float: left;
+  font-size: 14px;
+  margin: 40px 0 0 30px;
+  color: #666;
+}
+.layout-container .nav-main .main-box #register .register-list-right h3 {
+  margin-bottom: 30px;
+}
+.layout-container .nav-main .main-box #register .register-list-right a {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #1e7bb3;
+  color: #fff;
+  border-radius: 3px;
+}
+.layout-container .footer {
+  /* 网站备注信息 */
+  min-width: 1200px;
+  margin: 30px 0 0 0;
+  padding: 30px 0 20px;
+  text-align: center;
+  line-height: 30px;
+  color: #666;
+  font-size: 13px;
+}
+.layout-container .layout-footer-fixed {
+  position: fixed;
+  right: 0;
+  top: 45%;
+  width: 40px;
+  background: #70d48c;
+}
+.layout-container .layout-footer-fixed li {
+  margin: 10px 0;
+  cursor: pointer;
+}
+.layout-container .layout-footer-fixed li i {
+  display: block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+}
+.layout-container .layout-footer-fixed li span {
+  display: block;
+  text-align: center;
+}

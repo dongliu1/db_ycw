@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>yunchuangwang</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="../rsc/css/style.css">
+        <link rel="stylesheet" href="release.css">
+		<link rel="stylesheet" type="text/css" href="../rsc/font/iconfont.css">
+		<link rel="stylesheet" href="../rsc/css/animate.min.css">
+    </head>
+    <body>
+        <div class="layout-container">
+            <!--导航栏-->
+            <div class="layout-header-nav">
+                <div class="nav-bar">
+                    <div class="nav-bar-l">
+                        <span>您好，欢迎您！</span>
+                        <a href="../landing/landing.html">登录</a>
+                        <a href="../register/register.html">注册</a>
+                    </div>
+                    <div class="nav-bar-r">
+                        <ul>
+                            <li class="menu"><a class="list" href="#">会员中心</a></li>
+                            <li class="menu">
+								<a class="list" href="#">商家<i class="iconfont icon-zuo2"></i></a>
+								<ul class="menu1">
+									<li><a href="#">账号充值</a></li>
+									<li><a href="#">账号余额</a></li>
+									<li><a href="#">账号提现</a></li>
+								</ul>
+							</li>
+                            <li class="menu">
+								<a class="list" href="#">我是刷手<i class="iconfont icon-zuo2"></i></a>
+								<ul class="menu1">
+									<li><a href="#">发布任务</a></li>
+									<li><a href="#">接手任务</a></li>
+									<li><a href="#">完成任务</a></li>
+								</ul>
+							</li>
+                            <li class="menu">
+								<a class="list" href="#">账号管理<i class="iconfont icon-zuo2"></i></a>
+								<ul class="menu1">
+									<li><a href="#">资料修改</a></li>
+									<li><a href="#">密码修改</a></li>
+									<li><a href="#">密码认证</a></li>
+								</ul>
+							</li>
+                            <li class="menu"><a class="list" href="#">app下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--logo-->
+            <div class="layout-header-logo">
+                <!--logo-->
+                <div class="nav-bar-logo">
+                    <img src="../rsc/image/logo.png"/>
+                </div>
+                <!--菜单-->
+                <div class="nav-header-menu">
+					<ul>
+						<li class="active">
+							<a href="#">首页</a>
+						</li>
+						<li>
+							<a href="#">任务中心</a>
+						</li>
+						<li>
+							<a href="#">我要兼职</a>
+						</li>
+						<li>
+							<a href="#">帮助中心</a>
+						</li>
+						<li>
+							<a href="#">新手教程</a>
+						</li>
+					</ul>
+                </div>
+            </div>
+			<!--任务大厅-->
+            <div class="layout-main-list">
+                <div class="addTask">
+                    <table width="100%" border="0" align="center" cellpadding="1" cellspacing="1" class="">
+                        <tbody>
+                            <tr class="list">
+                                <td><h1>发布任务</h1></td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">任务区:</td>
+                                <td class="taskType">
+                                    <select>
+                                        <option value="1">淘宝任务</option>
+                                        <option value="2">天猫任务</option>
+                                        <option value="3">京东任务</option>
+                                    </select>
+                                    <span class="prompt"></span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">定单类型:</td>
+                                <td class="taskType">
+                                    <select>
+                                        <option value="1">手机单</option>
+                                        <option value="2">电脑单</option>
+                                    </select>
+                                    <span class="prompt"></span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">发布人:</td>
+                                <td class="taskType">
+                                    <a href="#">选择发布人信息绑定</a>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">店铺名称:</td>
+                                <td class="taskType">
+                                    <span></span>
+                                    <span class="prompt"></span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">商品链接:</td>
+                                <td class="taskType">
+                                    <input type="text">
+                                    <span class="prompt">安全起见请尽量发布不同商品地址</span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">商品标题:</td>
+                                <td class="taskType">
+                                    <input type="text">
+                                    <span class="prompt">方便接手人准确找到你的商品</span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">商品图片:</td>
+                                <td class="taskType">
+                                    <button class="btn">上传图片</button>
+                                    <span class="prompt">上传图片大小限制2M</span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">付款方式:</td>
+                                <td class="taskType">
+                                    <select>
+                                        <option value="1">接手方垫付</option>
+                                        <option value="2">红包支付</option>
+                                        <option value="2">远程代付</option>
+                                    </select>
+                                    <span class="prompt">选择红包支付或远程代付，发布任务不用押扣任务担保金，只需填写商品价格即可</span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">任务佣金:</td>
+                                <td class="taskType">
+                                    <input type="text">
+                                    <span class="prompt">每一单任务金额</span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">账号等级要求:</td>
+                                <td class="taskType">
+                                    <select>
+                                        <option value="1">普通会员</option>
+                                        <option value="2">银牌会员</option>
+                                        <option value="3">金牌会员</option>
+                                        <option value="4">钻石会员</option>
+                                        <option value="5">VIP会员</option>
+                                    </select>
+                                    <span class="prompt"></span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">收货好评时间:</td>
+                                <td class="taskType">
+                                    <select>
+                                        <option value="1" selected="selected">马上好评</option>
+                                        <option value="2">30分钟后好评（接手方30分钟后才可以收货，所需发布点 = 基本发布点 × 1.2）</option>
+                                        <option value="3">1天后好评（接手方1天后才可以收货，所需发布点 = 基本发布点 × 1.5）</option>
+                                        <option value="4">2天后好评（接手方2天后才可以收货，所需发布点 = 基本发布点 × 1.5 + 1）</option>
+                                        <option value="5">3天后好评（接手方3天后才可以收货，所需发布点 = 基本发布点 × 1.5 + 1.5）</option>
+                                        <option value="6">4天后好评（接手方4天后才可以收货，所需发布点 = 基本发布点 × 1.5 + 2）</option>
+                                        <option value="7">5天后好评（接手方5天后才可以收货，所需发布点 = 基本发布点 × 1.5 + 3）</option>
+                                        <option value="8">6天后好评（接手方6天后才可以收货，所需发布点 = 基本发布点 × 1.5 + 4）</option>
+                                        <option value="9">7天后好评（接手方7天后才可以收货，所需发布点 = 基本发布点 × 1.5 + 5）</option>
+                                        <option value="10">物流显示签收后才可以收货好评（所需发布点 = 基本发布点 × 1.5 + 3）</option>
+                                    </select>
+                                    <span class="prompt"></span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">指定好评内容:</td>
+                                <td class="taskType">
+                                    <textarea rows="4" cols="20" class="w350" name=""></textarea>
+                                    <span class="prompt"></span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">平台留言提醒:</td>
+                                <td class="taskType">
+                                    <textarea rows="4" cols="20" class="w350" name=""></textarea>
+                                    <span class="prompt"></span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">商铺动态评分:</td>
+                                <td class="taskType">
+                                    <input type="checkbox">
+                                    <span>全部5分</span>
+                                    <input type="checkbox">
+                                    <span>全部不打分</span>
+                                    <span class="prompt">每一单任务金额</span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">任务地区选择:</td>
+                                <td class="taskType">
+                                    <select name="Province" id="Province">
+                                        <option value="">请选择省份</option>
+                                        <option value="北京市">北京市</option>
+                                        <option value="天津市">天津市</option>
+                                        <option value="河北省">河北省</option>
+                                        <option value="山西省">山西省</option>
+                                        <option value="内蒙古自治区">内蒙古自治区</option>
+                                        <option value="辽宁省">辽宁省</option>
+                                        <option value="吉林省">吉林省</option>
+                                        <option value="黑龙江省">黑龙江省</option>
+                                        <option value="上海市">上海市</option>
+                                        <option value="江苏省">江苏省</option>
+                                        <option value="浙江省">浙江省</option>
+                                        <option value="安徽省">安徽省</option>
+                                        <option value="福建省">福建省</option>
+                                        <option value="江西省">江西省</option>
+                                        <option value="山东省">山东省</option>
+                                        <option value="河南省">河南省</option>
+                                        <option value="湖北省">湖北省</option>
+                                        <option value="湖南省">湖南省</option>
+                                        <option value="广东省">广东省</option>
+                                        <option value="广西壮族自治区">广西壮族自治区</option>
+                                        <option value="海南省">海南省</option>
+                                        <option value="重庆市">重庆市</option>
+                                        <option value="四川省">四川省</option>
+                                        <option value="贵州省">贵州省</option>
+                                        <option value="云南省">云南省</option>
+                                        <option value="西藏自治区">西藏自治区</option>
+                                        <option value="陕西省">陕西省</option>
+                                        <option value="甘肃省">甘肃省</option>
+                                        <option value="青海省">青海省</option>
+                                        <option value="宁夏回族自治区">宁夏回族自治区</option>
+                                        <option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+                                        <option value="台湾省">台湾省</option>
+                                        <option value="香港特别行政区">香港特别行政区</option>
+                                        <option value="澳门特别行政区">澳门特别行政区</option>
+                                        <option value="其它">其它</option>
+                                    </select>
+                                    <span class="prompt">指定接手地区</span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">卖家性别:</td>
+                                <td class="taskType">
+                                    <input type="checkbox">
+                                    <span>男</span>
+                                    <input type="checkbox">
+                                    <span>女</span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">卖家年纪:</td>
+                                <td class="taskType">
+                                    <select name="limit_age" id="limit_age">
+                                        <option value="0" selected="selected">不限</option>
+                                        <option value="1">20岁以下</option>
+                                        <option value="2">21-25岁</option>
+                                        <option value="3">26-32岁</option>
+                                        <option value="4">33-40岁</option>
+                                        <option value="5">41岁以上</option>
+                                    </select>
+                                    <span class="prompt"></span>
+                                </td>
+                            </tr>
+                            <tr class="list">
+                                <td class="title">二级密码:</td>
+                                <td class="taskType">
+                                    <input type="text">
+                                </td>
+                            </tr>
+                            <tr class="list submit_btn">
+                                <td class="title"></td>
+                                <td class="taskType">
+                                    <button id="submit_btn" onclick="ycw_task._init_createTask()">确认提交</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+			</div>
+            <!---->
+            <div class="layout-footer">
+                <div class="layout-footer-main">
+                    <div class="list">
+                        <ul>
+                            <li class="title">常见问题</li>
+                            <li><a href="#">产品安装</a></li>
+                            <li><a href="#">帮助中心</a></li>
+                            <li><a href="#">安全应急中心</a></li>
+                            <li><a href="#">开源文化</a></li>
+                        </ul>
+                    </div>
+                    <div class="list">
+                        <ul>
+                            <li class="title">公司产品</li>
+                            <li><a href="#">产品安装</a></li>
+                            <li><a href="#">帮助中心</a></li>
+                            <li><a href="#">安全应急中心</a></li>
+                            <li><a href="#">开源文化</a></li>
+                        </ul>
+                    </div>
+                    <div class="list">
+                        <ul>
+                            <li class="title">关于我们</li>
+                            <li><a href="#">产品安装</a></li>
+                            <li><a href="#">帮助中心</a></li>
+                            <li><a href="#">安全应急中心</a></li>
+                            <li><a href="#">开源文化</a></li>
+                        </ul>
+                    </div>
+                    <div class="list active">
+                        <ul>
+                            <li class="title">联系我们</li>
+                            <li><i class="iconfont icon-position"></i><a href="#">公司地址：湖北省武汉市洪山区光谷广场</a></li>
+                            <li><i class="iconfont icon-dianhua"></i><a href="#">联系方式：400-800-1000</a></li>
+                            <li><i class="iconfont icon-icon"></i><a href="#">联系邮箱：4008001000@163.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--客服-->
+            <div class="layout-footer-fixed">
+                <ul>
+                    <li>
+                        <i class="iconfont icon-qq"></i>
+                        <span>QQ</span>
+                        <span>咨询</span>
+                    </li>
+                    <li>
+                        <i class="iconfont icon-buchongiconsvg02"></i>
+                        <span>微信</span>
+                        <span>咨询</span>
+                    </li>
+                    <li>
+                        <i class="iconfont icon-tongzhi3"></i>
+                        <span>公告</span>
+                        <span>信息</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
+<script src="../rsc/js/jquery-3.2.1.min.js"></script>
+<script src="../rsc/js/server.js"></script>
+<script src="../rsc/js/main.js"></script>
+<script src="release.js"></script>

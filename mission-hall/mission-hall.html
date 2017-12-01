@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>yunchuangwang</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <link rel="stylesheet" href="../rsc/css/style.css">
+        <link rel="stylesheet" href="mission-hall.css">
+		<link rel="stylesheet" type="text/css" href="../rsc/font/iconfont.css">
+		<link rel="stylesheet" href="../rsc/css/animate.min.css">
+    </head>
+    <body>
+        <div class="layout-container">
+            <!--导航栏-->
+            <div class="layout-header-nav">
+                <div class="nav-bar">
+                    <div class="nav-bar-l">
+                        <span>您好，欢迎您！</span>
+                        <a href="../landing/landing.html">登录</a>
+                        <a href="../register/register.html">注册</a>
+                    </div>
+                    <div class="nav-bar-r">
+                        <ul>
+                            <li class="menu"><a class="list" href="#">会员中心</a></li>
+                            <li class="menu">
+								<a class="list" href="#">商家<i class="iconfont icon-zuo2"></i></a>
+								<ul class="menu1">
+									<li><a href="#">账号充值</a></li>
+									<li><a href="#">账号余额</a></li>
+									<li><a href="#">账号提现</a></li>
+								</ul>
+							</li>
+                            <li class="menu">
+								<a class="list" href="#">我是刷手<i class="iconfont icon-zuo2"></i></a>
+								<ul class="menu1">
+									<li><a href="#">发布任务</a></li>
+									<li><a href="#">接手任务</a></li>
+									<li><a href="#">完成任务</a></li>
+								</ul>
+							</li>
+                            <li class="menu">
+								<a class="list" href="#">账号管理<i class="iconfont icon-zuo2"></i></a>
+								<ul class="menu1">
+									<li><a href="#">资料修改</a></li>
+									<li><a href="#">密码修改</a></li>
+									<li><a href="#">密码认证</a></li>
+								</ul>
+							</li>
+                            <li class="menu"><a class="list" href="#">app下载</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--logo-->
+            <div class="layout-header-logo">
+                <!--logo-->
+                <div class="nav-bar-logo">
+                    <img src="../rsc/image/logo.png"/>
+                </div>
+                <!--菜单-->
+                <div class="nav-header-menu">
+					<ul>
+						<li class="active">
+							<a href="#">首页</a>
+						</li>
+						<li>
+							<a href="#">任务中心</a>
+						</li>
+						<li>
+							<a href="#">我要兼职</a>
+						</li>
+						<li>
+							<a href="#">帮助中心</a>
+						</li>
+						<li>
+							<a href="#">新手教程</a>
+						</li>
+					</ul>
+                </div>
+            </div>
+			<!--任务大厅-->
+            <div class="layout-main-list">
+                <div class="taskHall">
+                    <ul class="post_task">
+                        <li class="list current">
+                            <a href="#">任务中心</a>
+                        </li>
+                        <li class="list">
+                            <a href="../release/release.html">发布任务</a>
+                        </li>
+                        <li class="list">
+                            <a href="#">已发布任务</a>
+                        </li>
+                        <li class="list">
+                            <a href="#">已接手任务</a>
+                        </li>
+                        <li class="list">
+                            <a href="../account-bind/account-bind.html">绑定账号</a>
+                        </li>
+                        <li class="list">
+                            <a href="#">订购空包快递</a>
+                        </li>
+                    </ul>
+                    <ul class="task_tab">
+                        <li class="list current">
+                            <a href="javascript:;">
+                                <span>淘宝任务</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="javascript:;">
+                                <span>天猫任务</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="javascript:;">
+                                <span>京东任务</span>
+                            </a>
+                        </li>
+                        <li class="list">
+                            <a href="javascript:;">
+                                <span>阿里巴巴</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <table class="list list-main">
+                    <tbody id="main-list">
+
+                    </tbody>
+                </table>
+				<div class="pagination">
+					<div class="left">
+						<span>总条数:</span>
+						<span id="tbl-rows">0</span>
+                        <span>每页多少条:</span>
+                        <span>10</span>
+						<span>第几页:</span>
+						<input type="text" id="tbl-pages" value="1">
+                        <span>总页数:</span>
+                        <span id="total-pages">1</span>
+					</div>
+					<div class="right">
+						<button class="btn" onclick="ycw_task._init_pagination('first')"><<</button>
+						<button class="btn" onclick="ycw_task._init_pagination('prev')"><</button>
+						<button class="btn" onclick="ycw_task._init_pagination('next')">></button>
+						<button class="btn" onclick="ycw_task._init_pagination('last')">>></button>
+					</div>
+					
+				</div>
+			</div>
+            <div class="layout-footer">
+                <div class="layout-footer-main">
+                    <div class="list">
+                        <ul>
+                            <li class="title">常见问题</li>
+                            <li><a href="#">产品安装</a></li>
+                            <li><a href="#">帮助中心</a></li>
+                            <li><a href="#">安全应急中心</a></li>
+                            <li><a href="#">开源文化</a></li>
+                        </ul>
+                    </div>
+                    <div class="list">
+                        <ul>
+                            <li class="title">公司产品</li>
+                            <li><a href="#">产品安装</a></li>
+                            <li><a href="#">帮助中心</a></li>
+                            <li><a href="#">安全应急中心</a></li>
+                            <li><a href="#">开源文化</a></li>
+                        </ul>
+                    </div>
+                    <div class="list">
+                        <ul>
+                            <li class="title">关于我们</li>
+                            <li><a href="#">产品安装</a></li>
+                            <li><a href="#">帮助中心</a></li>
+                            <li><a href="#">安全应急中心</a></li>
+                            <li><a href="#">开源文化</a></li>
+                        </ul>
+                    </div>
+                    <div class="list active">
+                        <ul>
+                            <li class="title">联系我们</li>
+                            <li><i class="iconfont icon-position"></i><a href="#">公司地址：湖北省武汉市洪山区光谷广场</a></li>
+                            <li><i class="iconfont icon-dianhua"></i><a href="#">联系方式：400-800-1000</a></li>
+                            <li><i class="iconfont icon-icon"></i><a href="#">联系邮箱：4008001000@163.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--客服-->
+            <div class="layout-footer-fixed">
+                <ul>
+                    <li>
+                        <i class="iconfont icon-qq"></i>
+                        <span>QQ</span>
+                        <span>咨询</span>
+                    </li>
+                    <li>
+                        <i class="iconfont icon-buchongiconsvg02"></i>
+                        <span>微信</span>
+                        <span>咨询</span>
+                    </li>
+                    <li>
+                        <i class="iconfont icon-tongzhi3"></i>
+                        <span>公告</span>
+                        <span>信息</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
+<script src="../rsc/js/jquery-3.2.1.min.js"></script>
+<script src="../libs/momentjs/moment.min.js"></script>
+<script src="../rsc/js/server.js"></script>
+<script src="../rsc/js/main.js"></script>
+<script src="mission-hall.js"></script>

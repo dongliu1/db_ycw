@@ -1,0 +1,192 @@
+@main: 1200px;
+@margin: 0 auto;
+
+*{
+  margin: 0;
+  padding: 0;
+}
+a{
+  text-decoration: none;
+  color: #666;
+}
+li{
+  list-style-type: none;
+}
+html,body{
+	width: 100%;
+	height: 100%;
+	font: 14px "Microsoft YaHei", tahoma, arial, "\5b8b\4f53", sans-serif;
+}
+.layout-container {
+	height: 100%;
+	.nav-header {
+		background: #f8f8f8;
+		border-bottom: 1px solid #b9b9b9;
+		.header {
+			width: @main;
+			margin: @margin;
+			height: 80px;
+			line-height: 80px;
+			.header-left {
+				float: left;
+				height: 100%;
+				img {
+					height: 100%;
+				}
+			}
+			.header-right {
+				float: right;
+				display: inline-block;
+				font-size: 16px;
+				a {
+					display: inline-block;
+					width: 102px;
+					height: 42px;
+					line-height: 42px;
+					text-align: center;
+					&:hover {
+						width: 100px;
+						height: 40px;
+						line-height: 40px;
+						border-radius: 3px;
+						border: 1px solid #0082f6;
+						color: #0082f6;
+					}
+				}
+			}
+		}
+	}
+	
+	.nav-main {
+		background: #F2F9FF;
+		border-bottom: 1px solid #ccc;
+		.main-title {
+			h1 {
+				padding-top: 30px;
+			}
+		}
+		.main-title {
+			width: @main;
+			margin: @margin;
+		}
+		.main-box {
+			width: @main;
+			margin: @margin;
+			min-height: 350px;
+			#register{
+				margin: 30px 0;
+				background: #fff;
+				border: 1px solid #f0f0f0;
+				text-align: center;
+				overflow: hidden;
+				display: inline-block;
+				.register-list {
+					width: 800px;
+					margin: 0 auto;
+					padding: 30px;
+					text-align: left;
+					font-size: 14px;
+					float: left;
+					border-right: dashed 1px #ddd;
+					dl {
+						clear: both;
+						display: block;
+						padding: 5px 0;
+						dt {
+							display: block;
+							padding: 5px 0;
+							float: left;
+							width: 30%;
+							line-height: 42px;
+							min-height: 42px;
+							color: #555;
+							text-align: right;
+						}
+						dd {
+							position: relative;
+							padding: 5px 0 5px 20px;
+							line-height: 42px;
+							min-height: 42px;
+							color: #555;
+							overflow: hidden;
+							input {
+								display: inline;
+								margin-right: 5px;
+								height: 20px;
+								line-height: 20px;
+								vertical-align: middle;
+								background: #fff;
+								color: #999;
+								border: 1px solid #e8e8e8;
+								border-radius: 2px;
+								padding: 10px;
+							}
+							#btnSubmit {
+								width: 200px;
+								height: 40px;
+								border-radius: 3px;
+								background: #1e7bb3;
+								color: #fff;
+							}
+						}
+					}
+				}
+				.register-list-right {
+					position: relative;
+					width: 280px;
+					height: auto;
+					float: left;
+					font-size: 14px;
+					margin: 40px 0 0 30px;
+					color: #666;
+					h3 {
+						margin-bottom: 30px;
+					}
+					a {
+						display: inline-block;
+						padding: 10px 20px;
+						background: #1e7bb3;
+						color: #fff;
+						border-radius: 3px;
+					}
+				}
+			}
+			
+		}
+	}
+	
+	.footer {
+		/* 网站备注信息 */
+		min-width: 1200px;
+		margin: 30px 0 0 0;
+		padding: 30px 0 20px;
+		text-align: center;
+		line-height: 30px;
+		color: #666;
+		font-size:13px;
+	}
+	
+	/* 联系方式 */
+	.layout-footer-fixed {
+		position: fixed;
+		right: 0;
+		top: 45%;
+		width:40px;
+		background: #70d48c;
+		li {
+			margin: 10px 0;
+			cursor: pointer;
+			i {
+				display: block;
+				width: 40px;
+				height: 40px;
+				line-height: 40px;
+				text-align: center;
+			}
+			span {
+				display: block;
+				text-align: center;
+			}
+		}
+	}
+}
