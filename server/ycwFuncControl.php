@@ -65,7 +65,7 @@ class ycwFuncControl extends ycwControl
         $qq=isset($params["qq"])?$params["qq"]:"";                                      //QQ
         $email=isset($params["email"])?$params["email"]:"";                             //邮箱
         $leader=isset($params["leader"])?$params["leader"]:"";                          //推荐人
-        $nickname=isset($params["nickname"])?$params["nickname"]:"";                    //昵称
+        $nickname=isset($params["nickname"])?$params["nickname"]:$user;                 //昵称
 
         if($user == "" || $psw == "" || $tel == "" || $payPsw=="" ||$userType==""){     //必要参数
             return 'False';
@@ -422,7 +422,7 @@ class ycwFuncControl extends ycwControl
         $user             =  isset($params["username"])?$params["username"]:"";                //发布人
         $taskName         =  isset($params["taskName"])?$params["taskName"]:"";                //任务名称
         $payType          =  isset($params["payType"])?$params["payType"]:"";                  //付款方式
-        $platformName     =  isset($params["platformName"])?$params["platformName"]:"";        //发布平台
+        $platformType     =  isset($params["platformType"])?$params["platformType"]:"";        //发布平台类型
         $shopName         =  isset($params["shopName"])?$params["shopName"]:"";                //店铺名称
         $equipment        =  isset($params["equipment"])?$params["equipment"]:"";              //设备
         $keywords         =  isset($params["keywords"])?$params["keywords"]:array();          //搜索关键词  例如:["鞋子","男士"]
@@ -433,20 +433,36 @@ class ycwFuncControl extends ycwControl
         $credibilityLevel =  isset($params["credibilityLevel"])?$params["credibilityLevel"]:""; //买号信誉等级要求
         $taskCommission   =  isset($params["taskCommission"])?$params["taskCommission"]:"";     //任务佣金
         $taskCode         =  isset($params["taskCode"])?$params["taskCode"]:array();            //地区行政编码  例如:["201","302"]
+        $integral         =  isset($params["integral"])?$params["integral"]:"";                 //任务点数
+        $timeOfReceipt    =  isset($params["timeOfReceipt"])?$params["timeOfReceipt"]:"";       //好评时间要求
+        $commentOfReceipt =  isset($params["commentOfReceipt"])?$params["commentOfReceipt"]:""; //好评内容要求
+        $orders           =  isset($params["orders"])?$params["orders"]:"";                     //任务接受状态
 
-        if($fileUrl==""||$user==""||$taskName==""||$shopName==""||$linkAddress==""||$credibilityLevel==""||$payType==""||$platformName==""||!(int)$taskCommission||!is_array($taskCode)||!count($taskCode)||!is_array($keywords))return "False";        //参数不符合要求
+        if($orders==""||$commentOfReceipt==""||$timeOfReceipt==""||$integral==""||$fileUrl==""||$user==""
+            ||$taskName==""||$shopName==""||$linkAddress==""||$credibilityLevel==""
+            ||$payType==""||$platformType==""||!(int)$taskCommission||!is_array($taskCode)
+            ||!count($taskCode)||!is_array($keywords))return "False";        //参数不符合要求
 
         list($msec, $sec) = explode(' ', microtime());
         $msectime =  (float)sprintf('%.0f', (floatval($msec) + floatval($sec)) * 1000);
         $taskId=$user."_".$msectime;
+
 
         $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
         if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
         mysqli_query($con,'START TRANSACTION');                                         //开启事务
         mysqli_query($con,"SET AUTOCOMMIT=0");                                          //设置mysql不自动提交，需自行用commit语句提交
         mysqli_set_charset($con,'utf8');                                                //设置中文编码
-        $sql1 = "INSERT INTO user_task (id, taskName,author) VALUES ('".$taskId."','".$taskName."','".$user."')";
-        $sql2 = "INSERT INTO task_info (id,payType,platformName,shopName,equipment,fileUrl,linkAddress,credibilityLevel,taskCommission) VALUES ('".$taskId."','".$payType."','".$platformName."','".$shopName."','".$equipment."','".$fileUrl."','".$linkAddress."','".$credibilityLevel."','".$taskCommission."')";
+        $sql1 = "INSERT INTO user_task (id, taskName,modifiTime,author) VALUES ('$taskId','$taskName','$msectime','$user')";
+        $sql2 = "INSERT INTO task_info (
+                      id,payType,orders,commentOfReceipt,timeOfReceipt,platformType,
+                      integral,shopName,equipment,fileUrl,linkAddress,
+                      credibilityLevel,taskCommission
+                      ) VALUES (
+                      '$taskId','$payType','$orders','$commentOfReceipt','$timeOfReceipt','$platformType',
+                      '$integral','$shopName','$equipment','$fileUrl','$linkAddress',
+                      '$credibilityLevel','$taskCommission')";
+        //echo $sql1."---------------".$sql2;
         $res1 = mysqli_query($con,$sql1);                                               //向user_task表插入数据
         $res2 = mysqli_query($con,$sql2);                                               //向task_info表插入数据
 
@@ -490,7 +506,7 @@ class ycwFuncControl extends ycwControl
 
         $taskName         =  isset($params["taskName"])?$params["taskName"]:"";                //任务名称
         $payType          =  isset($params["payType"])?$params["payType"]:"";                  //付款方式
-        $platformName     =  isset($params["platformName"])?$params["platformName"]:"";        //发布平台
+        $platformType     =  isset($params["platformType"])?$params["platformType"]:"";        //发布平台
         $shopName         =  isset($params["shopName"])?$params["shopName"]:"";                //店铺名称
         $equipment        =  isset($params["equipment"])?$params["equipment"]:"";              //设备
         $keywords         =  isset($params["keywords"])?$params["keywords"]:array();          //搜索关键词  例如:["鞋子","男士"]
@@ -501,16 +517,30 @@ class ycwFuncControl extends ycwControl
         $credibilityLevel =  isset($params["credibilityLevel"])?$params["credibilityLevel"]:""; //买号信誉等级要求
         $taskCommission   =  isset($params["taskCommission"])?$params["taskCommission"]:"";     //任务佣金
         $taskCode         =  isset($params["taskCode"])?$params["taskCode"]:array();            //地区行政编码  例如:["201","302"]
+        $integral         =  isset($params["integral"])?$params["integral"]:"";                 //任务点数
+        $timeOfReceipt    =  isset($params["timeOfReceipt"])?$params["timeOfReceipt"]:"";       //好评时间要求
+        $commentOfReceipt =  isset($params["commentOfReceipt"])?$params["commentOfReceipt"]:""; //好评内容要求
+        $orders           =  isset($params["orders"])?$params["orders"]:"";                     //任务接受状态
 
-        if($fileUrl==""||$taskName==""||$shopName==""||$linkAddress==""||$credibilityLevel==""||$payType==""||$platformName==""||!(int)$taskCommission||!is_array($taskCode)||!count($taskCode)||!is_array($keywords))return "False";        //参数不符合要求
+
+        if($orders==""||$commentOfReceipt==""||$timeOfReceipt==""||$integral==""||
+            $fileUrl==""||$taskName==""||$shopName==""||$linkAddress==""||
+            $credibilityLevel==""||$payType==""||$platformType==""||
+            !(int)$taskCommission||!is_array($taskCode)||!count($taskCode)||!is_array($keywords))return "False";        //参数不符合要求
+
+        list($msec, $sec) = explode(' ', microtime());
+        $msectime =  (float)sprintf('%.0f', (floatval($msec) + floatval($sec)) * 1000);
 
         $con=mysqli_connect($this->host,$this->dbuser,$this->dbpsw,$this->database);    //连接数据库
         if (!$con)die('Could not connect: ' . mysqli_error($con));      //连接失败
         mysqli_query($con,'START TRANSACTION');                                         //开启事务
         mysqli_query($con,"SET AUTOCOMMIT=0");                                          //设置mysql不自动提交，需自行用commit语句提交
         mysqli_set_charset($con,'utf8');                                                //设置中文编码
-        $sql1 = "UPDATE user_task SET taskName='$taskName' WHERE id='$taskId'";
-        $sql2="UPDATE task_info SET payType='$payType', platformName='$platformName', shopName='$shopName', equipment='$equipment', fileUrl='$fileUrl', linkAddress='$linkAddress', credibilityLevel='$credibilityLevel', taskCommission='$taskCommission' WHERE id='$taskId'";
+        $sql1 = "UPDATE user_task SET taskName='$taskName', modifiTime='$msectime' WHERE id='$taskId'";
+        $sql2="UPDATE task_info SET orders='$orders', commentOfReceipt='$commentOfReceipt', timeOfReceipt='$timeOfReceipt', 
+              integral='$integral', payType='$payType', platformType='$platformType', shopName='$shopName', equipment='$equipment',
+               fileUrl='$fileUrl', linkAddress='$linkAddress', credibilityLevel='$credibilityLevel', 
+               taskCommission='$taskCommission' WHERE id='$taskId'";
         $res1 = mysqli_query($con,$sql1);                                               //向user_task表更新数据
         $res2 = mysqli_query($con,$sql2);                                               //向task_info表更新数据
 
@@ -565,13 +595,14 @@ class ycwFuncControl extends ycwControl
         $pageRows=isset($params["pageRows"])?(int)$params["pageRows"]:0;
         if($pageNum>0&&$pageRows>0){
             $startRow=($pageNum-1)*$pageRows;
-            $sql="SELECT * FROM user_task limit ".$startRow.",".$pageRows;
+            $sql="SELECT * FROM user_task order by modifiTime desc limit $startRow,".$pageRows;
             return $this->postTaskInfo($sql);
         }else{
-            return "False";
+            return "False1";
         }
 
     }
+
 
     /******
      ****查询用户任务信息*****
@@ -580,7 +611,7 @@ class ycwFuncControl extends ycwControl
     public function getUserTaskInfo($params){
         $user=isset($params["username"])?$params["username"]:"";
         if($user=="")return false;
-        $sql="SELECT * FROM user_task WHERE author='$user'";
+        $sql="SELECT * FROM user_task WHERE author='$user' order by modifiTime desc";
         return $this->postTaskInfo($sql);
     }
 
@@ -641,6 +672,7 @@ class ycwFuncControl extends ycwControl
      * 查询任务信息
      */
     public function postTaskInfo($sql){
+        //echo $sql;
         $res=$this->msql_select($sql);
         if($res){
             $json="True";
@@ -652,7 +684,8 @@ class ycwFuncControl extends ycwControl
                     break;
                 }
                 //$taskInfo[0]["infoLogo"]=str_replace("","",$taskInfo[0]["infoLogo"]);
-                $taskInfo[0]["infoLogo"]=stripslashes($taskInfo[0]["infoLogo"]);
+                $taskInfo[0]["fileUrl"]=stripslashes($taskInfo[0]["fileUrl"]);
+                $taskInfo[0]["linkAddress"]=stripslashes($taskInfo[0]["linkAddress"]);
                 $res[$key]=array_merge($row,$taskInfo[0]);
                 $codes=$this->msql_select("SELECT code FROM task_code WHERE id='".$taskid."'");
                 $code=array();
@@ -834,8 +867,9 @@ class ycwFuncControl extends ycwControl
         if(!unlink($file))return false;
         return true;
     }
-
-    public function sendMessageVerification($params){
+	
+	
+	public function sendMessageVerification($params){
         $apikey = isset($params["apikey"])?$params["apikey"]:""; //修改为您的apikey(https://www.yunpian.com)登录官网后获取
         $mobile = isset($params["apikey"])?$params["apikey"]:""; //请用自己的手机号代替
         $text="【云片网】您的验证码是1234";

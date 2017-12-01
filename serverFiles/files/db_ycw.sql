@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.4
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: 2017-11-22 03:18:33
--- 服务器版本： 5.7.14
--- PHP Version: 5.6.25
+-- Host: localhost
+-- Generation Time: 2017-12-01 03:44:15
+-- 服务器版本： 5.7.19
+-- PHP Version: 5.6.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -44,6 +46,14 @@ CREATE TABLE `task_code` (
   `code` varchar(128) NOT NULL COMMENT '地区编码'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='任务地区表';
 
+--
+-- 转存表中的数据 `task_code`
+--
+
+INSERT INTO `task_code` (`id`, `code`) VALUES
+('liudong_1512047010634', '201'),
+('liudong_1512047010634', '302');
+
 -- --------------------------------------------------------
 
 --
@@ -53,14 +63,25 @@ CREATE TABLE `task_code` (
 CREATE TABLE `task_info` (
   `id` varchar(128) NOT NULL COMMENT '任务id',
   `payType` varchar(128) NOT NULL COMMENT '付款方式',
-  `platformName` varchar(128) NOT NULL COMMENT '平台名称',
+  `platformType` varchar(128) NOT NULL COMMENT '平台名称',
   `shopName` varchar(128) NOT NULL COMMENT '店铺名称',
   `equipment` varchar(128) NOT NULL COMMENT '设备',
   `fileUrl` varchar(128) NOT NULL COMMENT '任务图片路径',
   `linkAddress` varchar(128) NOT NULL COMMENT '商品链接地址',
   `credibilityLevel` varchar(128) NOT NULL COMMENT '买号信誉等级要求',
-  `taskCommission` varchar(128) NOT NULL COMMENT '任务佣金'
+  `taskCommission` varchar(128) NOT NULL COMMENT '任务佣金',
+  `integral` varchar(128) CHARACTER SET utf32 NOT NULL COMMENT '任务点数',
+  `timeOfReceipt` varchar(128) CHARACTER SET utf32 NOT NULL COMMENT '好评时间要求',
+  `commentOfReceipt` varchar(128) NOT NULL COMMENT '好评内容要求',
+  `orders` varchar(128) NOT NULL COMMENT '任务执行状态'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='任务详情字段';
+
+--
+-- 转存表中的数据 `task_info`
+--
+
+INSERT INTO `task_info` (`id`, `payType`, `platformType`, `shopName`, `equipment`, `fileUrl`, `linkAddress`, `credibilityLevel`, `taskCommission`, `integral`, `timeOfReceipt`, `commentOfReceipt`, `orders`) VALUES
+('liudong_1512047010634', '1', '2', '三只松鼠', '1', 'http://localhost/ycw/serverFiles/img/mi.png', 'http://www.baidu.com', 'LV5', '50', '8.1', '10天内', 'lv2以上', '1');
 
 -- --------------------------------------------------------
 
@@ -72,6 +93,14 @@ CREATE TABLE `task_keyword` (
   `id` varchar(128) NOT NULL COMMENT '任务id',
   `keyword` varchar(128) NOT NULL COMMENT '关键词'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='任务关键词';
+
+--
+-- 转存表中的数据 `task_keyword`
+--
+
+INSERT INTO `task_keyword` (`id`, `keyword`) VALUES
+('liudong_1512047010634', '坚果'),
+('liudong_1512047010634', '核桃');
 
 -- --------------------------------------------------------
 
@@ -86,6 +115,14 @@ CREATE TABLE `user_account` (
   `userType` varchar(128) NOT NULL DEFAULT '0' COMMENT '用户类型（商家0/刷手1）'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `user_account`
+--
+
+INSERT INTO `user_account` (`account`, `password`, `telephone`, `userType`) VALUES
+('liudong', '123456', '15527744217', '1'),
+('xujinkai', 'admin', '15787845679', '1');
+
 -- --------------------------------------------------------
 
 --
@@ -96,6 +133,14 @@ CREATE TABLE `user_email` (
   `telephone` varchar(128) NOT NULL DEFAULT '' COMMENT '手机号',
   `email` varchar(128) DEFAULT NULL COMMENT '邮箱'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `user_email`
+--
+
+INSERT INTO `user_email` (`telephone`, `email`) VALUES
+('15527744217', 'Array'),
+('15787845679', '1013204440@qq.com');
 
 -- --------------------------------------------------------
 
@@ -112,6 +157,14 @@ CREATE TABLE `user_info` (
   `asset` varchar(128) NOT NULL DEFAULT '0' COMMENT '用户资产'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `user_info`
+--
+
+INSERT INTO `user_info` (`telephone`, `payword`, `qq`, `leader`, `nickname`, `asset`) VALUES
+('15527744217', '520131', '1137293945', '徐进凯', 'liudong', '0'),
+('15787845679', '123456', '1013204440', 'liudong', 'xujinkai', '0');
+
 -- --------------------------------------------------------
 
 --
@@ -121,8 +174,16 @@ CREATE TABLE `user_info` (
 CREATE TABLE `user_task` (
   `id` varchar(128) NOT NULL COMMENT '任务id',
   `taskName` varchar(128) NOT NULL COMMENT '任务名称',
+  `modifiTime` varchar(128) NOT NULL COMMENT '发布时间',
   `author` varchar(128) NOT NULL COMMENT '发布人'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='用户任务列表';
+
+--
+-- 转存表中的数据 `user_task`
+--
+
+INSERT INTO `user_task` (`id`, `taskName`, `modifiTime`, `author`) VALUES
+('liudong_1512047010634', '衣品天成', '1512047010634', 'liudong');
 
 --
 -- Indexes for dumped tables
@@ -155,6 +216,7 @@ ALTER TABLE `user_info`
 --
 ALTER TABLE `user_task`
   ADD UNIQUE KEY `任务id` (`id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

@@ -14,7 +14,7 @@ class ycwControl
     public $dbpsw="usbw";               //数据库密码
     public $database="db_ycw";          //数据库名称
     public $port="80";                  //端口号
-    public $filename="../db_ycw.sql";      //sql文件
+    public $filename="../serverFiles/files/db_ycw.sql";      //sql文件
 
     public $filePath="";                //文件ip地址
     public $rootURL="";                 //站点ip地址
@@ -24,7 +24,7 @@ class ycwControl
     {                                    //初始化地址信息
         $this->host="localhost";
         $this->dbuser="root";
-        $this->dbpsw="usbw";
+        $this->dbpsw="123456";
         $this->database="db_ycw";
         $this->port="80";
 
@@ -43,6 +43,7 @@ class ycwControl
         mysqli_set_charset($con,'utf8');                                //设置中文编码
         $result = mysqli_query($con,$sql);                              //查询结果
         $rows=mysqli_num_rows($result);                                 //结果有多少行
+        //echo $rows;
         if($rows){
             $infos = array();
             while ($rows=mysqli_fetch_array($result)){
