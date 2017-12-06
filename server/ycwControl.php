@@ -22,9 +22,9 @@ class ycwControl
 
     public function __construct()
     {                                    //初始化地址信息
-        $this->host="localhost";
+        $this->host="182.61.38.236";
         $this->dbuser="root";
-        $this->dbpsw="123456";
+        $this->dbpsw="guo2013kong";
         $this->database="db_ycw";
         $this->port="80";
 

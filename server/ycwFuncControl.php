@@ -598,7 +598,7 @@ class ycwFuncControl extends ycwControl
             $sql="SELECT * FROM user_task order by modifiTime desc limit $startRow,".$pageRows;
             return $this->postTaskInfo($sql);
         }else{
-            return "False1";
+            return "{'result':false,'msg':'请求参数不对'}";
         }
 
     }
@@ -680,7 +680,7 @@ class ycwFuncControl extends ycwControl
                 $taskid=$row["id"];
                 $taskInfo=$this->msql_select("SELECT * FROM task_info WHERE id='".$taskid."'");
                 if(!$taskInfo){
-                    $json="False";
+                    $json="{'result':false,'msg':'未搜索到相关任务信息'}";
                     break;
                 }
                 //$taskInfo[0]["infoLogo"]=str_replace("","",$taskInfo[0]["infoLogo"]);
@@ -707,7 +707,7 @@ class ycwFuncControl extends ycwControl
             if($json=="True")$json=json_encode($res,JSON_UNESCAPED_UNICODE);
             return str_replace("\\/", "/", $json);
         }else{
-            return "False";
+            return "{'result':false,'msg':'未搜索到相关任务'}";
         }
     }
 
@@ -867,14 +867,20 @@ class ycwFuncControl extends ycwControl
         if(!unlink($file))return false;
         return true;
     }
-	
-	
+
+    /**
+     * 短信验证
+     * @param $params
+     * @return string
+     */
 	public function sendMessageVerification($params){
         $apikey = isset($params["apikey"])?$params["apikey"]:""; //修改为您的apikey(https://www.yunpian.com)登录官网后获取
-        $mobile = isset($params["apikey"])?$params["apikey"]:""; //请用自己的手机号代替
-        $text="【云片网】您的验证码是1234";
+        $mobile = isset($params["mobile"])?$params["mobile"]:""; //请用自己的手机号代替
+        $text="【云片网】您的验证码是";
 
-        if($apikey==""||$mobile=="")return "False";
+        if($apikey==""||$mobile=="")return "{'result':false,'msg':'传入参数不对'}";
+
+        $rand=rand(100000,999999);
 
         $ch = curl_init();
 
@@ -892,31 +898,31 @@ class ycwFuncControl extends ycwControl
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         // 取得用户信息
-        $json_data = $this->get_user($ch,$apikey);
-        $array = json_decode($json_data,true);
+        //$json_data = $this->get_user($ch,$apikey);
+        //$array = json_decode($json_data,true);
         //echo '<pre>';print_r($array);
 
         // 发送短信
-        $data=array('text'=>$text,'apikey'=>$apikey,'mobile'=>$mobile);
+        $data=array('text'=>$text.$rand,'apikey'=>$apikey,'mobile'=>$mobile);
         $json_data = $this->send($ch,$data);
-        $array = json_decode($json_data,true);
+        return json_encode($json_data,JSON_UNESCAPED_UNICODE);
         //echo '<pre>';print_r($array);
 
         // 发送模板短信
         // 需要对value进行编码
-        $data = array('tpl_id' => '1', 'tpl_value' => ('#code#').
+        /*$data = array('tpl_id' => '1', 'tpl_value' => ('#code#').
             '='.urlencode('1234').
             '&'.urlencode('#company#').
             '='.urlencode('欢乐行'), 'apikey' => $apikey, 'mobile' => $mobile);
         print_r ($data);
         $json_data = $this->tpl_send($ch,$data);
-        $array = json_decode($json_data,true);
+        $array = json_decode($json_data,true);*/
         //echo '<pre>';print_r($array);
 
         // 发送语音验证码
-        $data=array('code'=>'9876','apikey'=>$apikey,'mobile'=>$mobile);
+        /*$data=array('code'=>'9876','apikey'=>$apikey,'mobile'=>$mobile);
         $json_data =$this->voice_send($ch,$data);
-        $array = json_decode($json_data,true);
+        $array = json_decode($json_data,true);*/
         //echo '<pre>';print_r($array);
 
         // 发送语音通知，务必要报备好模板
@@ -924,14 +930,14 @@ class ycwFuncControl extends ycwControl
         模板： 课程#name#在#time#开始。 最终发送结果： 课程深度学习在14:00开始
          */
 
-        $tpl_id = '123456'; //你自己后台报备的模板id
+        /*$tpl_id = '123456'; //你自己后台报备的模板id
         $tpl_value = urlencode('#time#').'='.urlencode('1234').
         '&'.urlencode('#name#').'='.urlencode('欢乐行');
         $data=array('tpl_id'=>$tpl_id,'tpl_value'=>$tpl_value,'apikey'=>$apikey,'mobile'=>$mobile);
         $json_data = $this->notify_send($ch,$data);
         $array = json_decode($json_data,true);
         //echo '<pre>';print_r($array);
-        curl_close($ch);
+        curl_close($ch);*/
     }
 
     /************************************************************************************/
@@ -979,12 +985,9 @@ class ycwFuncControl extends ycwControl
     }
 
     function checkErr($result,$error) {
-        if($result === false)
-        {
+        if($result === false){
             echo 'Curl error: ' . $error;
-        }
-        else
-        {
+        }else{
             //echo '操作完成没有任何错误';
         }
     }

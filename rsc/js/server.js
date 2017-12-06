@@ -1,4 +1,16 @@
-var path=(typeof(serverPath)=="undefined"?"../server/":serverPath);
+//var path=(typeof(serverPath)=="undefined"?"../server/":serverPath);
+var path="http://www.yunchuangwang.cn/server/";
+var get_token=function(){
+    var path="ycw_dbserver/server/";
+    var key="mysecretpersonaluniquekey";
+    var date=new Date();
+    var year=date.getFullYear();
+    var month=date.getMonth()+1;
+    var day=date.getDate();
+    if(day<10)day="0"+day;
+    var moment=year+"-"+month+"-"+day;
+    return $.md5(path+moment+"/"+key);
+};
 var requestApi={
     /***
      * 登录
@@ -21,6 +33,7 @@ var requestApi={
             param={isError:"参数错误"}
         }
         var prm={
+            api_token:get_token(),
             method:"login",
             params:param
         };
@@ -40,6 +53,7 @@ var requestApi={
      ********/
     registration:function (params) {
         var prm={
+            api_token:get_token(),
             method:"registration",
             params:params
         };
@@ -52,6 +66,7 @@ var requestApi={
      */
     getUser:function (params) {
         var prm={
+            api_token:get_token(),
             method:"getUser",
             params:params
         };
@@ -64,6 +79,7 @@ var requestApi={
      */
     getUserInfo:function (params) {
         var prm={
+            api_token:get_token(),
             method:"getUserInfo",
             params:params
         };
@@ -78,6 +94,7 @@ var requestApi={
      ********/
     modifyPassword:function (params) {
         var prm={
+            api_token:get_token(),
             method:"modifyPassword",
             params:params
         };
@@ -90,6 +107,7 @@ var requestApi={
      */
     modifyPasswordByTelephone:function (params) {
         var prm={
+            api_token:get_token(),
             method:"modifyPasswordByTelephone",
             params:params
         };
@@ -101,6 +119,7 @@ var requestApi={
      */
     resetPassword:function (params) {
         var prm={
+            api_token:get_token(),
             method:"resetPassword",
             params:params
         };
@@ -113,6 +132,7 @@ var requestApi={
      */
     bindEmail:function (params) {
         var prm={
+            api_token:get_token(),
             method:"bindEmail",
             params:params
         };
@@ -123,6 +143,7 @@ var requestApi={
      */
     connectDatabase:function () {
         var prm={
+            api_token:get_token(),
             method:"connectDatabase",
             params:""
         };
@@ -133,6 +154,7 @@ var requestApi={
      */
     importSqlFile:function () {
         var prm={
+            api_token:get_token(),
             method:"importSqlFile",
             params:""
         };
@@ -145,6 +167,7 @@ var requestApi={
      */
     createTask:function (params) {
         var prm={
+            api_token:get_token(),
             method:"createTask",
             params:params
         };
@@ -157,9 +180,11 @@ var requestApi={
      */
     getTaskInfo:function (params) {
         var prm={
+            api_token:get_token(),
             method:"getTaskInfo",
             params:params?params:{}
         };
+        //console.log(get_token());
         return $.post(path+"server.php",prm,function (data) {},"html");
     },
     /***
@@ -169,6 +194,7 @@ var requestApi={
      */
     getUserTaskInfo:function (params) {
         var prm={
+            api_token:get_token(),
             method:"getUserTaskInfo",
             params:params?params:{}
         };
@@ -181,6 +207,7 @@ var requestApi={
      */
     getTaskInfoById:function (params) {
         var prm={
+            api_token:get_token(),
             method:"getTaskInfoById",
             params:params?params:{}
         };
@@ -193,6 +220,7 @@ var requestApi={
      */
     getTaskInfoByKeyword:function (params) {
         var prm={
+            api_token:get_token(),
             method:"getTaskInfoByKeyword",
             params:params?params:{}
         };
@@ -205,6 +233,7 @@ var requestApi={
      */
     deleteTask:function (params) {
         var prm={
+            api_token:get_token(),
             method:"deleteTask",
             params:params?params:{}
         };
@@ -217,6 +246,7 @@ var requestApi={
      */
     uploadImg:function (params) {
         var prm={
+            api_token:get_token(),
             method:"uploadImg",
             params:params?params:{}
         };
@@ -229,6 +259,7 @@ var requestApi={
      */
     readFiles:function(params){
         var prm={
+            api_token:get_token(),
             method:"readFiles",
             params:params?params:{}
         };
@@ -241,6 +272,7 @@ var requestApi={
      */
     clearFiles:function(params){
         var prm={
+            api_token:get_token(),
             method:"clearFiles",
             params:params?params:{}
         };
@@ -253,6 +285,7 @@ var requestApi={
      */
     updateTask:function(params) {
         var prm={
+            api_token:get_token(),
             method:"updateTask",
             params:params?params:{}
         };
@@ -266,6 +299,7 @@ var requestApi={
      */
     transact:function(params) {
         var prm={
+            api_token:get_token(),
             method:"transact",
             params:params?params:{}
         };
@@ -278,6 +312,7 @@ var requestApi={
      */
     getAsset:function(params) {
         var prm={
+            api_token:get_token(),
             method:"getAsset",
             params:params?params:{}
         };
@@ -290,6 +325,7 @@ var requestApi={
      */
     getDealRecord:function(params) {
         var prm={
+            api_token:get_token(),
             method:"getDealRecord",
             params:params?params:{}
         };
@@ -302,6 +338,7 @@ var requestApi={
      */
     deleteDealRecord:function(params) {
         var prm={
+            api_token:get_token(),
             method:"deleteDealRecord",
             params:params?params:{}
         };
@@ -309,6 +346,7 @@ var requestApi={
     },
     sendMessageVerification:function (params) {
         var prm={
+            api_token:get_token(),
             method:"sendMessageVerification",
             params:params?params:{}
         }
